@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">心电采集系统</string>
+    <string name="title">蓝牙配置</string>
+    <string name="dialog_YES">确定</string>
+    <string name="dialog_CANCEL">取消</string>
+    
+    <string name="h_pull_to_refresh_pull_label">右拉刷新，我拉~</string>
+    <string name="h_pull_to_refresh_footer_pull_label">左拉加载更多~</string>
+     
+    <string name="pull_to_refresh_pull_label">下拉刷新，我拉~</string>
+    <string name="pull_to_refresh_release_label">松开可刷新</string>
+    <string name="pull_to_refresh_refreshing_label">正在刷新…</string>
+    <string name="pull_to_refresh_footer_release_label">松开可加载</string>
+    <string name="pull_to_refresh_footer_pull_label">向上加载更多~</string>
+    <string name="pull_to_refresh_footer_refreshing_label">正在加载…</string>
+    
+    <string name="str_home">首页</string>
+    <string name="str_record">心电监测</string>
+    <string name="str_three_dimensional">3D</string>
+    <string name="str_analysis">数据分析</string>
+    <string name="str_interaction">医患互动</string>
+     
+    <string name="on">打开蓝牙</string>
+    <string name="off">关闭蓝牙</string>
+    <string name="Visible">设置可见</string>
+    <string name="List">扫描设备</string>
+    <string name="action_settings">Settings</string>
+    
+</resources>

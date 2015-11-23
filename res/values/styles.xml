@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="DefaultAnim">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+        <item name="android:dropDownListViewStyle">@style/ReportSpinnerStyle</item>
+    </style>
+
+    <style name="AnimationActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/window_in_anim</item>
+        <item name="android:activityOpenExitAnimation">@anim/window_out_anim</item>
+        <!--
+        <item name="android:activityCloseEnterAnimation">@anim/window_back_in_anim</item>
+        <item name="android:activityCloseExitAnimation">@anim/window_back_out_anim</item>
+        -->
+    </style>
+
+   <style name="ReportSpinnerStyle" parent="android:style/Widget.ListView.DropDown">
+        <item name="android:divider">#eaeaea</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+    
+     <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+    
+     <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+</resources>

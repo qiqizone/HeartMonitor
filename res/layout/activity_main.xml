@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_content_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A9A9A9"
+    android:orientation="horizontal"
+    tools:context=".ui.main.MainActivity" >
+
+    <LinearLayout
+        android:layout_width="@dimen/px230"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/px50"
+        android:paddingBottom="@dimen/px114" >
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|center_horizontal"
+            android:orientation="vertical" >
+
+            <com.ustc.engineering.lab410.HeartMonitor.ui.widget.CCircleImageView
+                android:id="@+id/head_image"
+                android:layout_width="@dimen/px110"
+                android:layout_height="@dimen/px110"
+                android:src="@drawable/bg_smallhead_home" />
+
+
+        </LinearLayout>
+        
+
+        <LinearLayout
+            android:id="@+id/btn_record"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px70"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/img_record"
+                android:layout_width="@dimen/px80"
+                android:layout_height="@dimen/px68"
+                android:src="@drawable/ic_marking_nor" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/txt_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px20"
+                android:gravity="center_vertical"
+                android:text="@string/str_record"
+                android:textColor="@color/main_tab_nor_color"
+                android:textSize="@dimen/px35" />
+        </LinearLayout>
+	
+        <LinearLayout
+            android:id="@+id/btn_analysis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px70"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="@dimen/px80"
+                android:layout_height="@dimen/px68"
+                android:src="@drawable/ic_report_nor" >
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px20"
+                android:gravity="center_vertical"
+                android:text="@string/str_analysis"
+                android:textColor="@color/main_tab_nor_color"
+                android:textSize="@dimen/px35" />
+        </LinearLayout>
+		
+       <LinearLayout 
+           android:id="@+id/btn_three_dimensional" 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px70"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+                <ImageView 
+                    android:layout_width="@dimen/px80" 
+                    android:layout_height="@dimen/px68" 
+                    android:src="@drawable/ic_interactive_nor">
+                </ImageView>
+
+                <TextView 
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content" 
+                    android:layout_marginTop="@dimen/px20" 
+                    android:gravity="center_vertical" 
+                    android:text="@string/str_three_dimensional" 
+                    android:textColor="@color/main_tab_nor_color" 
+                    android:textSize="@dimen/px35" />
+            </LinearLayout>
+  		
+       <LinearLayout 
+           android:id="@+id/btn_interaction" 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px70"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+                <ImageView 
+                    android:layout_width="@dimen/px80" 
+                    android:layout_height="@dimen/px68" 
+                    android:src="@drawable/ic_interactive_nor">
+                </ImageView>
+
+                <TextView 
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content" 
+                    android:layout_marginTop="@dimen/px20" 
+                    android:gravity="center_vertical" 
+                    android:text="@string/str_interaction" 
+                    android:textColor="@color/main_tab_nor_color" 
+                    android:textSize="@dimen/px35" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_help"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/px60"
+                android:layout_height="@dimen/px60"
+                android:layout_marginTop="@dimen/px100"
+                android:background="@drawable/btn_help_seletor" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:background="#cececf"
+        android:visibility="gone" >
+    </View>
+
+    <android.support.v4.app.FragmentTabHost
+        android:id="@+id/main_tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <FrameLayout
+            android:id="@+id/tab_content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+    </android.support.v4.app.FragmentTabHost>
+
+</LinearLayout>

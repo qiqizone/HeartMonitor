@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFAFA"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ui.main.RecordFragment" >
+
+   <ScrollView
+      android:id="@+id/scrollView1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentTop="true" >
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="horizontal">"
+
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+           <TextView
+               android:id="@+id/textView1"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/title"
+               android:textSize="@dimen/px60"
+               android:textAppearance="?android:attr/textAppearanceLarge" />
+
+           <Button
+               android:id="@+id/on"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:onClick="on"
+               android:text="@string/on" />
+
+           <Button
+               android:id="@+id/set_visible"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:onClick="visible"
+               android:text="@string/Visible" />
+
+           <Button
+               android:id="@+id/search_list"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:onClick="list"
+               android:text="@string/List" />
+
+           <Button
+               android:id="@+id/off"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:onClick="off"
+               android:text="@string/off" />
+
+       </LinearLayout>
+
+   <ListView
+       android:layout_marginLeft="@dimen/px200"
+       android:id="@+id/listView1"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent" >
+
+   </ListView>
+
+   </LinearLayout>
+</ScrollView>
+
+</RelativeLayout>
