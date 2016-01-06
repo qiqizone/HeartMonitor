@@ -33,8 +33,8 @@ public class MainActivity extends FragmentActivity implements
 OnClickListener {
 	
 	private ImageView mImgAvatar;
-	public static  FragmentTabHost mTabHost;//Êµ¼Êtab¶¨Òå
-	public static LinearLayout mCurrTab;//×Ô¶¨ÒåµÄ¿Ø¼ş¶¨Òå
+	public static  FragmentTabHost mTabHost;//å®é™…tabå®šä¹‰
+	public static LinearLayout mCurrTab;//è‡ªå®šä¹‰çš„æ§ä»¶å®šä¹‰
 	private long firstClickTime;
 	private long secondClickTime;
 	private final long MAX_CLICK_TIME = 3 * 1000;
@@ -57,13 +57,13 @@ OnClickListener {
     setContentView(R.layout.activity_main);
     initialize();
   }
-  /**
-	 * ³õÊ¼»¯½çÃæ
+  	/**
+	 * åˆå§‹åŒ–ç•Œé¢
 	 */
 	private void initialize() {
-	
-		//³õÊ¼»¯¿Ø¼ş²¢ÉèÖÃ¼àÌı£¬ÔÚÏÂÃæµÄonClick()ÖĞÉèÖÃÃ¿¸ötabµÄviewÏÔÊ¾£¬ÆäÊµ²¼¾ÖÎÄ¼şµÄbtn_home,btn_markµÈ²»ÊÇÊµ¼Ê²úÉúµÄtab£¬Ö»ÊÇ
-		//ÔÚºóÃæµÄ¸Ã¿Ø¼şµÄonClick()ÖĞÉèÖÃ¶ÔÓ¦tabµÄviewÏÔÊ¾
+
+		//åˆå§‹åŒ–æ§ä»¶å¹¶è®¾ç½®ç›‘å¬ï¼Œåœ¨ä¸‹é¢çš„onClick()ä¸­è®¾ç½®æ¯ä¸ªtabçš„viewæ˜¾ç¤ºï¼Œå…¶å®å¸ƒå±€æ–‡ä»¶çš„btn_home,btn_markç­‰ä¸æ˜¯å®é™…äº§ç”Ÿçš„tabï¼Œåªæ˜¯
+		//åœ¨åé¢çš„è¯¥æ§ä»¶çš„onClick()ä¸­è®¾ç½®å¯¹åº”tabçš„viewæ˜¾ç¤º
 		mImgAvatar = (ImageView) findViewById(R.id.head_image);
 		DisplayImageOptions option = new DisplayImageOptions.Builder()
 				.showImageOnFail(R.drawable.bg_smallhead_home)
@@ -189,17 +189,17 @@ OnClickListener {
 	}
 	
 	private void doubleClick() {
-		// µÚÒ»´Îµã»÷
+		// ï¿½ï¿½Ò»ï¿½Îµï¿½ï¿½
 		if (firstClickTime == 0) {
 			firstClickTime = System.currentTimeMillis();
-			CustomToast.showToast(this, "ÔÙ´Îµã»÷ÍË³ö", CustomToast.LENGTH_LONG);
+			CustomToast.showToast(this, "å†æ¬¡ç‚¹å‡»é€€å‡º", CustomToast.LENGTH_LONG);
 		} else {
 			secondClickTime = System.currentTimeMillis();
 
-			// ³¬³ö×î³¤Ô¼¶¨Ê±¼ä£¬²»ÍË³öÓ¦ÓÃ
+			// è¶…å‡ºæœ€é•¿çº¦å®šæ—¶é—´ï¼Œä¸é€€å‡ºåº”ç”¨
 			if (secondClickTime - firstClickTime > MAX_CLICK_TIME) {
 				firstClickTime = secondClickTime;
-				CustomToast.showToast(this, "ÔÙ´Îµã»÷ÍË³ö", CustomToast.LENGTH_LONG);
+				CustomToast.showToast(this, "å†æ¬¡ç‚¹å‡»é€€å‡º", CustomToast.LENGTH_LONG);
 			} else {
 				
 				finish();

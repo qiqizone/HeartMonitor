@@ -71,8 +71,8 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 	private OutputStream mmOutStream;
 	private ScrollView svResult;
 	
-	private ArrayList<Integer> nNeeds; //ĞèÒªµÄ³¤¶È
-	private ArrayList<String>  sRecvs; //´æ·Å½ÓÊÕµÄÊı¾İ
+	private ArrayList<Integer> nNeeds; //éœ€è¦çš„é•¿åº¦
+	private ArrayList<String>  sRecvs; //å­˜æ”¾æ¥æ”¶çš„æ•°æ®
 
 	private TextView tvTitle, tvLog;
 
@@ -86,10 +86,11 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 	private RelativeLayout lineChart;
 	private LinearLayout linearLayout1;
 	private Button btnReturn;
-	public  String filename=""; //ÓÃÀ´±£´æ´æ´¢µÄÎÄ¼şÃû
-	private String mTempSaveString ="";//ÁÙÊ±Êı¾İ»º´æ
-	private String mSaveString ="";//±£´æÓÃÊı¾İ»º´æ
-	private String mDisplayString ="";//ÏÔÊ¾ÓÃÊı¾İ»º´æ
+	public  String filename=""; //ç”¨æ¥ä¿å­˜å­˜å‚¨çš„æ–‡ä»¶å
+	private String mTempSaveString ="";//ä¸´æ—¶æ•°æ®ç¼“å­˜
+	private String mDealString ="";//å¤„ç†ç”¨æ•°æ®ç¼“å­˜
+	private String mSaveString ="";//ä¿å­˜ç”¨æ•°æ®ç¼“å­˜
+	private String mDisplayString ="";//æ˜¾ç¤ºç”¨æ•°æ®ç¼“å­˜
 	private Button btnSave;
 	private Button btnSave1;
 	private InputStream tmpIn;
@@ -100,23 +101,25 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 	private int count = 0;
 	private int xTemp, yTemp;
 	private double[] x, y;
-	
+
+	private List<Double> EA_list = new ArrayList<Double>();
+
     ArrayList<String> xVals = new ArrayList<String>();
 //    ArrayList<Entry> yVals = new ArrayList<Entry>();
     
 	private TableLayout tableLayout;
 	private RelativeLayout dynamic_chart_line_layout;
 	
-    // ÓÃÓÚ´æ·ÅÃ¿ÌõÕÛÏßµÄµãÊı¾İ
+    // ç”¨äºå­˜æ”¾æ¯æ¡æŠ˜çº¿çš„ç‚¹æ•°æ®
     private XYSeries line1, line2;
-    // ÓÃÓÚ´æ·ÅËùÓĞĞèÒª»æÖÆµÄXYSeries
+    // ç”¨äºå­˜æ”¾æ‰€æœ‰éœ€è¦ç»˜åˆ¶çš„XYSeries
     private XYMultipleSeriesDataset mDataset;
-    // ÓÃÓÚ´æ·ÅÃ¿ÌõÕÛÏßµÄ·ç¸ñ
+    // ç”¨äºå­˜æ”¾æ¯æ¡æŠ˜çº¿çš„é£æ ¼
     private XYSeriesRenderer renderer1, renderer2;
-    // ÓÃÓÚ´æ·ÅËùÓĞĞèÒª»æÖÆµÄÕÛÏßµÄ·ç¸ñ
+    // ç”¨äºå­˜æ”¾æ‰€æœ‰éœ€è¦ç»˜åˆ¶çš„æŠ˜çº¿çš„é£æ ¼
     private XYMultipleSeriesRenderer mXYMultipleSeriesRenderer;
     private GraphicalView chart;
-	private String title = "ĞÄµçĞÅÏ¢";
+	private String title = "å¿ƒç”µä¿¡æ¯";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,14 +147,14 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 		btnSave1.setOnClickListener(this);
 		
         dynamic_chart_line_layout = (RelativeLayout) findViewById(R.id.chart);
-        //aChartEngine³õÊ¼»¯
+        //aChartEngineåˆå§‹åŒ–
         initChart();
 //        
 //        x = new double[10];
 //        y = new double[10];
         
 //		refreshChart();
-		//¶¥²¿±êÌâÏÔÊ¾ÉèÖÃ
+		//é¡¶éƒ¨æ ‡é¢˜æ˜¾ç¤ºè®¾ç½®
 		tvTitle = (TextView) this.findViewById(R.id.tvTitle);
 		tvLog = (TextView) this.findViewById(R.id.tvInfo);
 		Bundle bunde = this.getIntent().getExtras();
@@ -162,13 +165,13 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 		
 		btAdapt = BluetoothAdapter.getDefaultAdapter();
 		if (btAdapt == null) {
-			tvLog.append("±¾»úÎŞÀ¶ÑÀ£¬Á¬½ÓÊ§°Ü\n");
+			tvLog.append("æœ¬æœºæ— è“ç‰™ï¼Œè¿æ¥å¤±è´¥\n");
 			finish();
 			return;
 		}
 
 		if (btAdapt.getState() != BluetoothAdapter.STATE_ON) {
-			tvLog.append("±¾»úÀ¶ÑÀ×´Ì¬²»Õı³££¬Á¬½ÓÊ§°Ü\n");
+			tvLog.append("æœ¬æœºè“ç‰™çŠ¶æ€ä¸æ­£å¸¸ï¼Œè¿æ¥å¤±è´¥\n");
 			finish();
 			return;
 		}
@@ -183,411 +186,34 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 		
 
     }
-////MpAndroid³õÊ¼»¯------------------------------------------------------------------------
-//        tvX = (TextView)findViewById(R.id.tvXMax);
-//        tvY = (TextView)findViewById(R.id.tvYMax);
-//
-//        mSeekBarX = (SeekBar)findViewById(R.id.seekBar1);
-//        mSeekBarY = (SeekBar)findViewById(R.id.seekBar2);
-//
-////        mSeekBarX.setProgress(40);
-////        mSeekBarY.setProgress(100);
-//
-//        mSeekBarY.setOnSeekBarChangeListener(this);
-//        mSeekBarX.setOnSeekBarChangeListener(this);
-//
-//        mChart = (LineChart) findViewById(R.id.chart1);
-//        mChart.setOnChartGestureListener(this);
-//        mChart.setOnChartValueSelectedListener(this);
-//        mChart.setDrawGridBackground(true);//ÉèÖÃ±³¾°ÑÕÉ«
-//
-//        // no description text
-//        mChart.setDescription("");
-//        mChart.setNoDataTextDescription("You need to provide data for the chart.");
-//
-//        // enable value highlighting
-//        mChart.setHighlightEnabled(true);
-//
-//        // enable touch gestures
-//        mChart.setTouchEnabled(true);
-//
-//        // enable scaling and dragging
-//        mChart.setDragEnabled(true);
-//        mChart.setScaleEnabled(true);
-////         mChart.setScaleXEnabled(true);
-////         mChart.setScaleYEnabled(true);
-//
-//        // if disabled, scaling can be done on x- and y-axis separately
-//        mChart.setPinchZoom(false);
-//
-//        // set an alternative background color
-//        // mChart.setBackgroundColor(Color.GRAY);
-//
-//        // create a custom MarkerView (extend MarkerView) and specify the layout
-//        // to use for it
-//        MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);//µã»÷ºóµ¯³öÖµ½çÃæ
-//
-//        // set the marker to the chart
-//        mChart.setMarkerView(mv);
-//
-//        // enable/disable highlight indicators (the lines that indicate the
-//        // highlighted Entry)
-//        mChart.setHighlightEnabled(true);
-//        
-//        // x-axis limit line
-////        LimitLine llXAxis = new LimitLine(10f, "Index 10");
-////        llXAxis.setLineWidth(4f);
-////        llXAxis.enableDashedLine(10f, 10f, 0f);
-////        llXAxis.setLabelPosition(LimitLabelPosition.POS_RIGHT);
-////        llXAxis.setTextSize(10f);
-////        
-////        XAxis xAxis = mChart.getXAxis();
-////        xAxis.addLimitLine(llXAxis);
-//        
-//        LimitLine ll1 = new LimitLine(130f, "Upper Limit");//ÉèÖÃÉÏÏŞĞéÏßÎ»ÖÃ
-//        ll1.setLineWidth(4f);//ÉèÖÃÏß¿í
-//        ll1.enableDashedLine(10f, 10f, 0f);//ÉèÖÃĞéÏßÑùÊ½
-//        ll1.setLabelPosition(LimitLabelPosition.POS_RIGHT);//ÉèÖÃlableµÄÎ»ÖÃ
-//        ll1.setTextSize(10f);//ÉèÖÃlable×ÖÌå´óĞ¡
-//
-//        LimitLine ll2 = new LimitLine(-30f, "Lower Limit");//ÉèÖÃÏÂÏŞĞéÏßÎ»ÖÃ
-//        ll2.setLineWidth(4f);
-//        ll2.enableDashedLine(10f, 10f, 0f);
-//        ll2.setLabelPosition(LimitLabelPosition.POS_RIGHT);
-//        ll2.setTextSize(10f);
-//
-//        YAxis leftAxis = mChart.getAxisLeft();//yÖá×ø±êÉèÖÃ
-//        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-//        leftAxis.addLimitLine(ll1);//ÉèÖÃÉÏÏŞºÍÏÂÏŞ
-//        leftAxis.addLimitLine(ll2);
-//        leftAxis.setAxisMaxValue(5f);//ÉèÖÃyÖáÉÏÏŞ×ø±ê
-//        leftAxis.setAxisMinValue(-5f);//ÉèÖÃyÖáÏÂÏŞ×ø±ê
-//        leftAxis.setStartAtZero(false);//ÉèÖÃyÖá´Ó0¿ªÊ¼
-////        leftAxis.setYOffset(20f);//ÉèÖÃyÖáÆ«ÒÆ
-////        leftAxis.enableGridDashedLine(10f, 10f, 0f);//ÉèÖÃĞéÏßÍø¸ñ
-//        
-//        // limit lines are drawn behind data (and not on top)
-////        leftAxis.setDrawLimitLinesBehindData(true);
-//
-//        mChart.getAxisRight().setEnabled(false);//ÉèÖÃÓÒ²à×ø±ê²»ÏÔÊ¾
-//
-//        // add data
-////        setData(45, 100);//µÚÒ»¸ö²ÎÊıÎªµãµÄÊıÁ¿¡£µÚ¶ş¸ö²ÎÊıÎªyÖµµÄ·¶Î§
-//
-////        mChart.setVisibleXRange(20);
-////        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
-////        mChart.centerViewTo(20, 50, AxisDependency.LEFT);
-//        
-//        mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
-////        mChart.invalidate();
-//        
-//        // get the legend (only possible after setting data)
-//        Legend l = mChart.getLegend();
-//
-//        // modify the legend ...
-//        // l.setPosition(LegendPosition.LEFT_OF_CHART);
-//        l.setForm(LegendForm.LINE);
-//
-//        // // dont forget to refresh the drawing
-//        // mChart.invalidate();
-//    }
-//    
-//    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        super.onWindowFocusChanged(hasFocus);
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.line, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()) {
-//            case R.id.actionToggleValues: { 
-//                for (DataSet<?> set : mChart.getData().getDataSets())
-//                    set.setDrawValues(!set.isDrawValuesEnabled());
-//
-//                mChart.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleHighlight: {
-//                if (mChart.isHighlightEnabled())
-//                    mChart.setHighlightEnabled(false);
-//                else
-//                    mChart.setHighlightEnabled(true);
-//                mChart.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleFilled: {
-//
-//                ArrayList<LineDataSet> sets = (ArrayList<LineDataSet>) mChart.getData()
-//                        .getDataSets();
-//
-//                for (LineDataSet set : sets) {
-//                    if (set.isDrawFilledEnabled())
-//                        set.setDrawFilled(false);
-//                    else
-//                        set.setDrawFilled(true);
-//                }
-//                mChart.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleCircles: {
-//                ArrayList<LineDataSet> sets = (ArrayList<LineDataSet>) mChart.getData()
-//                        .getDataSets();
-//
-//                for (LineDataSet set : sets) {
-//                    if (set.isDrawCirclesEnabled())
-//                        set.setDrawCircles(false);
-//                    else
-//                        set.setDrawCircles(true);
-//                }
-//                mChart.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleCubic: {
-//                ArrayList<LineDataSet> sets = (ArrayList<LineDataSet>) mChart.getData()
-//                        .getDataSets();
-//
-//                for (LineDataSet set : sets) {
-//                    if (set.isDrawCubicEnabled())
-//                        set.setDrawCubic(false);
-//                    else
-//                        set.setDrawCubic(true);
-//                }
-//                mChart.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleStartzero: {
-//                mChart.getAxisLeft().setStartAtZero(!mChart.getAxisLeft().isStartAtZeroEnabled());
-//                mChart.getAxisRight().setStartAtZero(!mChart.getAxisRight().isStartAtZeroEnabled());
-//                mChart.invalidate();
-//                break;
-//            }
-//            case R.id.actionTogglePinch: {
-//                if (mChart.isPinchZoomEnabled())
-//                    mChart.setPinchZoom(false);
-//                else
-//                    mChart.setPinchZoom(true);
-//
-//                mChart.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleAutoScaleMinMax: {
-//                mChart.setAutoScaleMinMaxEnabled(!mChart.isAutoScaleMinMaxEnabled());
-//                mChart.notifyDataSetChanged();
-//                break;
-//            }
-//            case R.id.animateX: {
-//                mChart.animateX(3000);
-//                break;
-//            }
-//            case R.id.animateY: {
-//                mChart.animateY(3000, Easing.EasingOption.EaseInCubic);
-//                break;
-//            }
-//            case R.id.animateXY: {
-//                mChart.animateXY(3000, 3000);
-//                break;
-//            }
-//            case R.id.actionToggleFilter: {
-//
-//                // the angle of filtering is 35Â°
-//                Approximator a = new Approximator(ApproximatorType.DOUGLAS_PEUCKER, 35);
-//
-//                if (!mChart.isFilteringEnabled()) {
-//                    mChart.enableFiltering(a);
-//                } else {
-//                    mChart.disableFiltering();
-//                }
-//                mChart.invalidate();
-//
-//                //
-//                // for(int i = 0; i < 10; i++) {
-//                // mChart.addEntry(new Entry((float) (Math.random() * 100),
-//                // i+2), 0);
-//                // mChart.invalidate();
-//                // }
-//                //
-//                // Toast.makeText(getApplicationContext(), "valcount: " +
-//                // mChart.getDataOriginal().getYValCount() + ", valsum: " +
-//                // mChart.getDataOriginal().getYValueSum(),
-//                // Toast.LENGTH_SHORT).show();
-//                //
-//                break;
-//            }
-//            case R.id.actionSave: {
-//   
-////            	FileUtils.saveToSdCard(yVals, "title" + System.currentTimeMillis());//±£´æÎªtxt
-//            	//±£´æÎªpngÍ¼Æ¬
-//                if (mChart.saveToPath("title" + System.currentTimeMillis(), "")) {
-//                    Toast.makeText(getApplicationContext(), "Saving SUCCESSFUL!",
-//                            Toast.LENGTH_SHORT).show();
-//                } else
-//                    Toast.makeText(getApplicationContext(), "Saving FAILED!", Toast.LENGTH_SHORT)
-//                            .show();
-//
-//                // mChart.saveToGallery("title"+System.currentTimeMillis())
-//                break;
-//            }
-//        }
-//        return true;
-//    }
-//
-//    @Override
-//    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//
-//        tvX.setText("" + (mSeekBarX.getProgress() + 1));
-//        tvY.setText("" + (mSeekBarY.getProgress()));
-//
-////        setData(mSeekBarX.getProgress() + 1, mSeekBarY.getProgress());
-//
-//        // redraw
-//        mChart.invalidate();
-//    }
-//
-//    @Override
-//    public void onStartTrackingTouch(SeekBar seekBar) {
-//        // TODO Auto-generated method stub
-//
-//    }
-//
-//    @Override
-//    public void onStopTrackingTouch(SeekBar seekBar) {
-//        // TODO Auto-generated method stub
-//
-//    }
-//
-//    /**
-//     * 1¡¢ÉèÖÃx,y×ø±ê
-//     * 2¡¢LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
-//     * 3¡¢ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-//     *    dataSets.add(set1); 
-//     * 4¡¢LineData data = new LineData(xVals, dataSets);
-//     * 5¡¢mChart.setData(data);
-//     */
-//    
-//    private void setData(int x, Float[] y) {
-//    	
-//    	//xÖá×ø±ê
-//        for (int i = 0; i < x; i++) {
-//            xVals.add((i+count) + "");
-//            count+=x;
-//        }
-//        
-//        for (int i = 0; i < x; i++) {
-//
-//        	float val = y[i];
-////            float mult = (y + 1);
-////           
-////            float val = (float) (Math.random() * mult) + 3;// + (float)
-////                                                           // ((mult *
-////                                                           // 0.1) / 10);
-//            yVals.add(new Entry(val, i));
-//        }
-//
-//        // create a dataset and give it a type
-//        LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
-//        // set1.setFillAlpha(110);
-//        // set1.setFillColor(Color.RED);
-//
-//        // set the line to be drawn like this "- - - - - -"
-////        set1.enableDashedLine(10f, 5f, 0f);//ÉèÖÃĞéÏßÁ¬½Ó
-//        set1.setColor(Color.BLUE);
-//        set1.setCircleColor(Color.BLACK);
-//        set1.setLineWidth(1f);
-//        set1.setCircleSize(3f);
-//        set1.setDrawCircleHole(false);
-//        set1.setValueTextSize(9f);
-//        set1.setFillAlpha(65);
-//        set1.setFillColor(Color.BLACK);
-////        set1.setDrawFilled(true);
-////         set1.setShader(new LinearGradient(0, 0, 0, mChart.getHeight(),
-////         Color.BLACK, Color.WHITE, Shader.TileMode.MIRROR));
-//
-//        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-//        dataSets.add(set1); // add the datasets
-//
-//        // create a data object with the datasets
-//        LineData data = new LineData(xVals, dataSets);
-//
-//        // set data
-//        mChart.setData(data);
-//    }
-//    
-//    @Override
-//    public void onChartLongPressed(MotionEvent me) {
-//        Log.i("LongPress", "Chart longpressed.");
-//    }
-//
-//    @Override
-//    public void onChartDoubleTapped(MotionEvent me) {
-//        Log.i("DoubleTap", "Chart double-tapped.");
-//    }
-//
-//    @Override
-//    public void onChartSingleTapped(MotionEvent me) {
-//        Log.i("SingleTap", "Chart single-tapped.");
-//    }
-//
-//    @Override
-//    public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-//        Log.i("Fling", "Chart flinged. VeloX: " + velocityX + ", VeloY: " + velocityY);
-//    }
-//
-//    @Override
-//    public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-//        Log.i("Scale / Zoom", "ScaleX: " + scaleX + ", ScaleY: " + scaleY);
-//    }
-//
-//	@Override
-//	public void onChartTranslate(MotionEvent me, float dX, float dY) {
-//		Log.i("Translate / Move", "dX: " + dX + ", dY: " + dY);
-//	}
-//
-//	@Override
-//    public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
-//        Log.i("Entry selected", e.toString());
-//        Log.i("", "low: " + mChart.getLowestVisibleXIndex() + ", high: " + mChart.getHighestVisibleXIndex());
-//    }
-//
-//    @Override
-//    public void onNothingSelected() {
-//        Log.i("Nothing selected", "Nothing selected.");
-//    }
-//
 
 //--------------------------------------------------------------------------------------------------
-    //aChartEngine³õÊ¼»¯
+    //aChartEngineåˆå§‹åŒ–
 	private void initChart() {
 		// TODO Auto-generated method stub
-		// ³õÊ¼»¯£¬±ØĞë±£Ö¤XYMultipleSeriesDataset¶ÔÏóÖĞµÄXYSeriesÊıÁ¿ºÍ
-        // XYMultipleSeriesRenderer¶ÔÏóÖĞµÄXYSeriesRendererÊıÁ¿Ò»Ñù¶à
-        line1 = new XYSeries("ÕÛÏß1");
+		// åˆå§‹åŒ–ï¼Œå¿…é¡»ä¿è¯XYMultipleSeriesDatasetå¯¹è±¡ä¸­çš„XYSeriesæ•°é‡å’Œ
+		// XYMultipleSeriesRendererå¯¹è±¡ä¸­çš„XYSeriesRendereræ•°é‡ä¸€æ ·å¤š
+        line1 = new XYSeries("æŠ˜çº¿1");
         renderer1 = new XYSeriesRenderer();
         mDataset = new XYMultipleSeriesDataset();
         mXYMultipleSeriesRenderer = new XYMultipleSeriesRenderer();
 
-        // ¶ÔXYSeriesºÍXYSeriesRendererµÄ¶ÔÏóµÄ²ÎÊı¸³Öµ
+        // å¯¹XYSerieså’ŒXYSeriesRendererçš„å¯¹è±¡çš„å‚æ•°èµ‹å€¼
         // initLine(line1);
         // initLine(line2);
         initRenderer(renderer1, Color.GREEN, PointStyle.CIRCLE, true);
 
-        // ½«XYSeries¶ÔÏóºÍXYSeriesRenderer¶ÔÏó·Ö±ğÌí¼Óµ½XYMultipleSeriesDataset¶ÔÏóºÍXYMultipleSeriesRenderer¶ÔÏóÖĞ¡£
+        // å°†XYSerieså¯¹è±¡å’ŒXYSeriesRendererå¯¹è±¡åˆ†åˆ«æ·»åŠ åˆ°XYMultipleSeriesDatasetå¯¹è±¡å’ŒXYMultipleSeriesRendererå¯¹è±¡ä¸­
         mDataset.addSeries(line1);
         mXYMultipleSeriesRenderer.addSeriesRenderer(renderer1);
 
-        // ÅäÖÃchart²ÎÊı
+        // é…ç½®chartå‚æ•°
         setChartSettings(mXYMultipleSeriesRenderer, "X", "Y", 0, 10, 0, 5, Color.RED,
                 Color.WHITE);
 
-        // Í¨¹ı¸Ãº¯Êı»ñÈ¡µ½Ò»¸öView ¶ÔÏó
+        // é€šè¿‡è¯¥å‡½æ•°è·å–åˆ°ä¸€ä¸ªView å¯¹è±¡
         chart = ChartFactory.getCubeLineChartView(this, mDataset, mXYMultipleSeriesRenderer, 0.05f);
-        // ½«¸ÃView ¶ÔÏóÌí¼Óµ½layoutÖĞ¡£
+        // å°†è¯¥View å¯¹è±¡æ·»åŠ åˆ°layoutä¸­
         dynamic_chart_line_layout.addView(chart, new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
 
@@ -595,7 +221,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 	
 	private XYSeriesRenderer initRenderer(XYSeriesRenderer renderer, int color,
             PointStyle style, boolean fill) {
-        // ÉèÖÃÍ¼±íÖĞÇúÏß±¾ÉíµÄÑùÊ½£¬°üÀ¨ÑÕÉ«¡¢µãµÄ´óĞ¡ÒÔ¼°ÏßµÄ´ÖÏ¸µÈ
+        // è®¾ç½®å›¾è¡¨ä¸­æ›²çº¿æœ¬èº«çš„æ ·å¼ï¼ŒåŒ…æ‹¬é¢œè‰²ã€ç‚¹çš„å¤§å°ä»¥åŠçº¿çš„ç²—ç»†ç­‰
         renderer.setColor(color);
         renderer.setPointStyle(style);
         renderer.setFillPoints(fill);
@@ -606,7 +232,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
     protected void setChartSettings(XYMultipleSeriesRenderer mXYMultipleSeriesRenderer,
             String xTitle, String yTitle, double xMin, double xMax,
             double yMin, double yMax, int axesColor, int labelsColor) {
-        // ÓĞ¹Ø¶ÔÍ¼±íµÄäÖÈ¾¿É²Î¿´apiÎÄµµ
+        // æœ‰å…³å¯¹å›¾è¡¨çš„æ¸²æŸ“å¯å‚çœ‹apiæ–‡æ¡£
         mXYMultipleSeriesRenderer.setChartTitle(title);
         mXYMultipleSeriesRenderer.setXTitle(xTitle);
         mXYMultipleSeriesRenderer.setYTitle(yTitle);
@@ -668,10 +294,10 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 
     
 	/**
-	* Ìí¼ÓĞÂµÄÊı¾İ£¬¶à×é£¬¸üĞÂÇúÏß£¬Ö»ÄÜÔËĞĞÔÚÖ÷Ïß³Ì
-	* @param xList
-	* @param yList
-	*/
+	 * æ·»åŠ æ–°çš„æ•°æ®ï¼Œå¤šç»„ï¼Œæ›´æ–°æ›²çº¿ï¼Œåªèƒ½è¿è¡Œåœ¨ä¸»çº¿ç¨‹
+	 * @param xList
+	 * @param yList
+	 */
 	public void updateChart(List<Double> xList, List<Double> yList, XYSeries series) {
 		series.clear();
 		for (int i = 0; i < xList.size(); i++) {
@@ -693,8 +319,8 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 //			tableLayout.setVisibility(View.VISIBLE);
 //			linearLayout1.setVisibility(View.VISIBLE);
 //			lineChart.setVisibility(View.GONE);
-			closeAndExit();//Ã¿´Î·µ»Ø¹Ø±ÕÀ¶ÑÀÁ¬½Ó
-//			finish();//·µ»Øµ«²»¹Ø±ÕÀ¶ÑÀÁ¬½Óe
+			closeAndExit();//æ¯æ¬¡è¿”å›å…³é—­è“ç‰™è¿æ¥
+//			finish();//è¿”å›ä½†ä¸å…³é—­è“ç‰™è¿æ¥e
 
 			break;
 		case R.id.btn_save:
@@ -726,7 +352,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 				case Common.MESSAGE_CONNECT:
 					new Thread(new Runnable() {
 						public void run() {
-
+							Log.d("sss","MESSAGE_CONNECT");
 							BluetoothSocket tmp = null;
 							try {
 								
@@ -780,14 +406,15 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 					}).start();
 					break;
 				case Common.MESSAGE_CONNECT_SUCCEED:
-					tvTitle.setText(strName+"Á¬½Ó³É¹¦");
+					Log.d("sss","MESSAGE_CONNECT_SUCCEED");
+					tvTitle.setText(strName+"è¿æ¥æˆåŠŸ");
 					tvTitle.setBackgroundColor(Color.GREEN);
-//					addLog("Á¬½Ó³É¹¦");
+//					addLog("è¿æ¥æˆåŠŸ");
 					bConnect = true;
 					new Thread(new Runnable() {
 						public void run() {
 							
-							byte[] bufRecv = new byte[1024];//ÕâÀï¾ö¶¨ÆÁÄ»Ã¿´ÎÏÔÊ¾µÄ×Ö½Ú³¤¶È
+							byte[] bufRecv = new byte[1024];//è¿™é‡Œå†³å®šå±å¹•æ¯æ¬¡æ˜¾ç¤ºçš„å­—èŠ‚é•¿åº¦
 							int nRecv = 0;
 							while (bConnect) {
 								try {		
@@ -802,7 +429,8 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 									System.arraycopy(bufRecv, 0, nPacket, 0, nRecv);
 									mHandler.obtainMessage(Common.MESSAGE_RECV,
 											nRecv, -1, nPacket).sendToTarget();
-									Thread.sleep(100);//¾ö¶¨Êı¾İË¢ĞÂËÙ¶È
+									Log.d("sss","SEND_To_MESSAGE_RECV");
+									Thread.sleep(100);//å†³å®šæ•°æ®åˆ·æ–°é€Ÿåº¦
 								} catch (Exception e) {
 									Log.e(Common.TAG, "Recv thread:" + e.getMessage());
 									mHandler.sendEmptyMessage(Common.MESSAGE_EXCEPTION_RECV);
@@ -815,9 +443,10 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 					break;
 				case Common.MESSAGE_EXCEPTION_RECV:
 				case Common.MESSAGE_CONNECT_LOST:
-					tvTitle.setText(strName+"Á¬½ÓÒì³£");
+					Log.d("sss","MESSAGE_CONNECT_LOST");
+					tvTitle.setText(strName+"è¿æ¥å¼‚å¸¸");
 					tvTitle.setBackgroundColor(Color.RED);
-//					addLog("Á¬½ÓÒì³££¬ÇëÍË³ö±¾½çÃæºóÖØĞÂÁ¬½Ó");
+//					addLog("è¿æ¥å¼‚å¸¸ï¼Œè¯·é€€å‡ºæœ¬ç•Œé¢åé‡æ–°è¿æ¥");
 					try {
 						if (mmInStream != null)
 							mmInStream.close();
@@ -842,14 +471,19 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 
 					break;
 				case Common.MESSAGE_RECV:
-
+					Log.d("sss","MESSAGE_RECV");
 					byte[] bBuf = (byte[]) msg.obj;					
 					mTempSaveString = bytesToHexString(bBuf);
-					mSaveString += mTempSaveString;
-					//Ã¿¸ô5sË¢ĞÂÒ»´Î½çÃæ
-					if( mSaveString.length() > 75000 ){
-				        double[] y=stringSplitAndDataToFloats(mSaveString);
-				        mSaveString = "";
+					Log.d("mTempSaveString",mTempSaveString);
+					mDealString += mTempSaveString;
+					Log.d("mShowString",mDealString);
+					//æ¯éš”5såˆ·æ–°ä¸€æ¬¡ç•Œé¢
+					if( mDealString.length() > 37500 ){
+				        double[] y=stringSplitAndDataToFloats(mDealString);
+						Log.d("sss","stringSplitAndDataToFloats");
+						Log.d("sss-y[]",y+"");
+						mSaveString = mDealString;
+						mDealString = "";
 				        double[] y1 =new double[y.length/4];
 				        double[] y2 =new double[y.length/4];
 				        double[] y3 =new double[y.length/4];
@@ -857,35 +491,36 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 				        double[] x0 =new double[y.length/4];
 				        for(int i = 0; i < y.length/4 ; i++){
 				        	x0[i]= i;
-				        	y1[i]= y[i*4];//µÚÒ»¸öµã¼¯
-				        	y2[i]= y[i*4+1];//µÚ¶ş¸öµã¼¯
-				        	y3[i]= y[i*4+2];//µÚÈı¸öµã¼¯
-				        	y4[i]= y[i*4+3];//µÚËÄ¸öµã¼¯
+				        	y1[i]= y[i*4];  //ç¬¬ä¸€ä¸ªé€šé“ç‚¹é›†E
+				        	y2[i]= y[i*4+1];//ç¬¬äºŒä¸ªé€šé“ç‚¹é›†A
+				        	y3[i]= y[i*4+2];//ç¬¬ä¸‰ä¸ªé€šé“ç‚¹é›†S
+				        	y4[i]= y[i*4+3];//ç¬¬å››ä¸ªé€šé“ç‚¹é›†I
 				        }
-				        //±£´æ¸÷µã¼¯µ½list
-				        List<Double> y1_list = new ArrayList<Double>();
+				        //ä¿å­˜å„ç‚¹é›†åˆ°list
+						EA_list.clear();
 				        for(int i=0;i<y1.length;i++){
-				        	y1_list.add(y1[i]);
+							EA_list.add(y1[i]-y2[i]);
 				        }
-				        
+
 				        List<Double> x_list = new ArrayList<Double>();
-				        for(int i=0;i<y1.length;i++){
-				        	x_list.add(x0[i]);
+							for(int i=0;i<y1.length;i++){
+								x_list.add(x0[i]);
 				        }
 				        
-				        updateChart(x_list, y1_list, line1);
+				        updateChart(x_list, EA_list, line1);
 					}
-				        //Ìí¼ÓÊı¾İµ½Í¼±í
+					Log.d("sss","MESSAGE_RECV_END");
+					//æ·»åŠ æ•°æ®åˆ°å›¾è¡¨
 //						setData(x,y1);
 //					}
 					
-//					char[] chars = mSaveString.toCharArray();
+//					char[] chars = mShowString.toCharArray();
 ////
 //					StringBuffer hex = new StringBuffer();
 //					for(int i = 0; i < chars.length; i++){
 //					    hex.append(Integer.toHexString((int)chars[i]));
 //					}
-//					addLog("½ÓÊÕÊı¾İ: " + mTempSaveString);
+//					addLog("æ¥æ”¶æ•°æ®: " + mTempSaveString);
 //					Save();
 					break;
 				case Common.MESSAGE_TOAST:
@@ -898,14 +533,13 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 		};
 		
 		/**
-		 * ×ª»»Ê®Áù½øÖÆÍ¨ĞÅĞ­Òé×Ö·û´®ÎªÆä¶ÔÓ¦µÄdoubleÊıÖµ
-		 * 
-		 * @param String 		  
-		 * @return double[]
+		 *  è½¬æ¢åå…­è¿›åˆ¶é€šä¿¡åè®®å­—ç¬¦ä¸²ä¸ºå…¶å¯¹åº”çš„doubleæ•°å€¼
+		 * @param s
+		 * return double[]
 		 */ 	
 		private static double[] stringSplitAndDataToFloats(String s)
 			{  	   
-				String[] a = s.split("c00000"); //·Ö¸ô±êÊ¶·û
+				String[] a = s.split("c00000"); //åˆ†éš”æ ‡è¯†ç¬¦
 		        StringBuffer b = new StringBuffer();
 //		        System.out.println(a.length);
 		        for(int j = 1; j < a.length ;j++){
@@ -918,10 +552,10 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 		        String[] newStr = b.toString().split("#");
 		        int[] data = new int[newStr.length];
 		        double[] datas = new double[newStr.length];
-		        char ss = '7';//×î¸ßÎ»´óÓÚ7Îª¸ºÊı
+		        char ss = '7';//æœ€é«˜ä½å¤§äº7ä¸ºè´Ÿæ•°
 		        for(int i=0;i<newStr.length;i++){
 		        	if(newStr[i].charAt(0) > ss ){
-		        		data[i] = -(~Integer.valueOf(newStr[i],16)+1 & 0xffffff); //×î¸ßÎ»´óÓÚ7£¬È¡·´¼Ó1Óë0xffffffÏàÓë¼Ó¸ººÅ  
+		        		data[i] = -(~Integer.valueOf(newStr[i],16)+1 & 0xffffff); //æœ€é«˜ä½å¤§äº7ï¼Œå–ååŠ 1ä¸0xffffffç›¸ä¸åŠ è´Ÿå·
 		        	}else{
 		        		data[i] = Integer.valueOf(newStr[i],16);  
 		        	}         
@@ -932,8 +566,8 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 	
 		
 		/**
-		 * Convert byte[] to hex string.ÕâÀïÎÒÃÇ¿ÉÒÔ½«byte×ª»»³Éint£¬È»ºóÀûÓÃInteger.toHexString(int)
-		 * À´×ª»»³É16½øÖÆ×Ö·û´®¡£ 
+		 * Convert byte[] to hex string.è¿™é‡Œæˆ‘ä»¬å¯ä»¥å°†byteè½¬æ¢æˆintï¼Œç„¶ååˆ©ç”¨Integer.toHexString(int)
+		 * æ¥è½¬æ¢æˆ16è¿›åˆ¶å­—ç¬¦ä¸²
 		 * @param src byte[] data  
 		 * @return hex string  
 		 */ 
@@ -1007,37 +641,40 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 
 			return result.toString();
 		}
-		
-	    //±£´æ¹¦ÄÜÊµÏÖ
+
+	    //ä¿å­˜åŠŸèƒ½å®ç°
 		private void Save() {
-			//ÏÔÊ¾¶Ô»°¿òÊäÈëÎÄ¼şÃû
-			LayoutInflater factory = LayoutInflater.from(LineChartActivity1.this);  //Í¼²ãÄ£°åÉú³ÉÆ÷¾ä±ú
-			final View DialogView =  factory.inflate(R.layout.sname, null);  //ÓÃsname.xmlÄ£°åÉú³ÉÊÓÍ¼Ä£°å
+			//æ˜¾ç¤ºå¯¹è¯æ¡†è¾“å…¥æ–‡ä»¶å
+			LayoutInflater factory = LayoutInflater.from(LineChartActivity1.this);  //å›¾å±‚æ¨¡æ¿ç”Ÿæˆå™¨å¥æŸ„
+			final View DialogView =  factory.inflate(R.layout.sname, null);  //ç”¨sname.xmlæ¨¡æ¿ç”Ÿæˆè§†å›¾æ¨¡æ¿
 			new AlertDialog.Builder(LineChartActivity1.this)
-									.setTitle("ÎÄ¼şÃû")
-									.setView(DialogView)   //ÉèÖÃÊÓÍ¼Ä£°å
-									.setPositiveButton("È·¶¨",
-									new DialogInterface.OnClickListener() //È·¶¨°´¼üÏìÓ¦º¯Êı
+									.setTitle("æ–‡ä»¶å")
+									.setView(DialogView)   //è®¾ç½®è§†å›¾æ¨¡æ¿
+									.setPositiveButton("ç¡®å®š",
+									new DialogInterface.OnClickListener() //ç¡®å®šæŒ‰é”®å“åº”å‡½æ•°
 									{
 										public void onClick(DialogInterface dialog, int whichButton){
-											EditText text1 = (EditText)DialogView.findViewById(R.id.sname);  //µÃµ½ÎÄ¼şÃûÊäÈë¿ò¾ä±ú
-											filename = text1.getText().toString();  //µÃµ½ÎÄ¼şÃû
-											
+											EditText text1 = (EditText)DialogView.findViewById(R.id.sname);  //å¾—åˆ°æ–‡ä»¶åè¾“å…¥æ¡†å¥æŸ„
+											filename = text1.getText().toString();  //å¾—åˆ°æ–‡ä»¶å
+
 											try{
-												if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){  //Èç¹ûSD¿¨ÒÑ×¼±¸ºÃ
+												if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){  //å¦‚æœSDå¡å·²å‡†å¤‡å¥½
 													
-													filename =filename+".txt";   //ÔÚÎÄ¼şÃûÄ©Î²¼ÓÉÏ.txt
+													filename =filename+".txt";   //åœ¨æ–‡ä»¶åæœ«å°¾åŠ ä¸Š.txt
 //													fileNum++;
-													File sdCardDir = Environment.getExternalStorageDirectory();  //µÃµ½SD¿¨¸ùÄ¿Â¼
-													File BuildDir = new File(sdCardDir, "/data");   //´ò¿ªdataÄ¿Â¼£¬Èç²»´æÔÚÔòÉú³É
+													File sdCardDir = Environment.getExternalStorageDirectory();  //å¾—åˆ°SDå¡æ ¹ç›®å½•
+													File BuildDir = new File(sdCardDir, "/data");   //æ‰“å¼€dataç›®å½•ï¼Œå¦‚ä¸å­˜åœ¨åˆ™ç”Ÿæˆ
 													if(BuildDir.exists()==false)BuildDir.mkdirs();
-													File saveFile =new File(BuildDir, filename);  //ĞÂ½¨ÎÄ¼ş¾ä±ú£¬ÈçÒÑ´æÔÚÈÔĞÂ½¨ÎÄµµ
-													FileOutputStream stream = new FileOutputStream(saveFile);  //´ò¿ªÎÄ¼şÊäÈëÁ÷
-													stream.write(mSaveString.getBytes());
-													stream.close();
-													Toast.makeText(LineChartActivity1.this, "´æ´¢³É¹¦£¡", Toast.LENGTH_SHORT).show();
+													File saveFile =new File(BuildDir, filename);  //æ–°å»ºæ–‡ä»¶å¥æŸ„ï¼Œå¦‚å·²å­˜åœ¨ä»æ–°å»ºæ–‡æ¡£
+													FileOutputStream stream = new FileOutputStream(saveFile);  //æ‰“å¼€æ–‡ä»¶è¾“å…¥æµ
+													if(mSaveString != null){
+														stream.write(mSaveString.getBytes());
+														mSaveString = "";
+														stream.close();
+														Toast.makeText(LineChartActivity1.this, "å­˜å‚¨æˆåŠŸï¼", Toast.LENGTH_SHORT).show();
+													}
 												}else{
-													Toast.makeText(LineChartActivity1.this, "Ã»ÓĞ´æ´¢¿¨£¡", Toast.LENGTH_LONG).show();
+													Toast.makeText(LineChartActivity1.this, "æ²¡æœ‰å­˜å‚¨å¡ï¼", Toast.LENGTH_LONG).show();
 												}
 											
 											}catch(IOException e){
@@ -1046,10 +683,10 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 											}		
 										}
 									})
-									.setNegativeButton("È¡Ïû",   //È¡Ïû°´¼üÏìÓ¦º¯Êı,Ö±½ÓÍË³ö¶Ô»°¿ò²»×öÈÎºÎ´¦Àí 
+									.setNegativeButton("å–æ¶ˆ",   //å–æ¶ˆæŒ‰é”®å“åº”å‡½æ•°,ç›´æ¥é€€å‡ºå¯¹è¯æ¡†ä¸åšä»»ä½•å¤„ç†
 									new DialogInterface.OnClickListener() {
 										public void onClick(DialogInterface dialog, int which) { 
 										}
-									}).show();  //ÏÔÊ¾¶Ô»°¿ò
+									}).show();  //æ˜¾ç¤ºå¯¹è¯æ¡†
 		}		
 }
