@@ -220,4 +220,23 @@ pip-log.txt
 .gradle/2.8/taskArtifacts/fileHashes.bin
 .gradle/2.8/taskArtifacts/fileSnapshots.bin
 .gradle/2.8/taskArtifacts/taskArtifacts.bin
-/.idea/
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+*.sw*
+
+# generated files
+bin/
+gen/
+Wiki/
