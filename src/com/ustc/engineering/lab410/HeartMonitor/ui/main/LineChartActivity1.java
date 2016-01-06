@@ -190,6 +190,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 //--------------------------------------------------------------------------------------------------
     //aChartEngine初始化
 	private void initChart() {
+		 //
 		// TODO Auto-generated method stub
 		// 初始化，必须保证XYMultipleSeriesDataset对象中的XYSeries数量和
 		// XYMultipleSeriesRenderer对象中的XYSeriesRenderer数量一样多
