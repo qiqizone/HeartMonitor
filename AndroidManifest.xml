@@ -37,7 +37,8 @@
     	</activity>
     	  <activity android:name="com.ustc.engineering.lab410.HeartMonitor.ui.main.LineChartActivity1"
             android:theme="@style/AppTheme"
-            android:launchMode="singleTask" 
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="landscape" >
     	</activity>
     </application>

@@ -15,35 +15,35 @@ public class StringUtils {
 	public static boolean isEmpty(EditText editText) {
 		return TextUtils.isEmpty(editText.getText().toString().trim());
 	}
-	
-	// ¼ì²éstrÊÇ·ñ¿ÉÒÔ²¢encode
+
+	// æ£€æŸ¥stræ˜¯å¦å¯ä»¥å¹¶encode
 	public static String CheckAndEncode(String str){
 		String result = str;
 		if(!isEmpty(result))
 			result = URLEncoder.encode(result);
 		return result;
 	}
-	
-	// ¼ì²éstrÊÇ·ñ¿ÉÒÔ²¢decode
+
+	// æ£€æŸ¥stræ˜¯å¦å¯ä»¥å¹¶decode
 	public static String CheckAndDecode(String str)
 	{
 		String result = str;
 //		if(!isEmpty(result))
 //			result = URLDecoder.decode(result);
-		
+
 		return result;
 	}
-	
+
 	public static boolean isAllSpace(CharSequence value)
 	{
 		if(isEmpty(value))
 			return true;
-		
+
 		String noSpace = value.toString().trim().replaceAll(" ", "");
 		return isEmpty(noSpace);
-		
+
 	}
-	
+
 	public static boolean parseArrayInt(int[] array, String value, String split) {
 		if (array == null || StringUtils.isEmpty(value))
 			return false;
@@ -66,19 +66,19 @@ public class StringUtils {
 		if(compa==null || compb==null)return false;
 		return compa.toLowerCase(Locale.getDefault()).equals(compb.toLowerCase(Locale.getDefault()));
 	}
-	
-	// È¥³ı×Ö·û´®Î²²¿¿Õ¸ñ
+
+	// å»é™¤å­—ç¬¦ä¸²å°¾éƒ¨ç©ºæ ¼
 	public static String trimEnd(String str) {
 		return str.replaceAll("[\\s]*$", "");
 	}
 
-	// ½«×Ö·û´®ÖĞËùÓĞµÄ·Ç±ê×¼×Ö·û£¨Ë«×Ö½Ú×Ö·û£©Ìæ»»³ÉÁ½¸ö±ê×¼×Ö·û£¨**£¬»òÆäËûµÄÒ²¿ÉÒÔ£©
+	// å°†å­—ç¬¦ä¸²ä¸­æ‰€æœ‰çš„éæ ‡å‡†å­—ç¬¦ï¼ˆåŒå­—èŠ‚å­—ç¬¦ï¼‰æ›¿æ¢æˆä¸¤ä¸ªæ ‡å‡†å­—ç¬¦ï¼ˆ**ï¼Œæˆ–å…¶ä»–çš„ä¹Ÿå¯ä»¥ï¼‰
 	public static String convert(String str) {
 		return str.replaceAll("[^\\x00-\\xff]", "**");
 	}
 
 	public static boolean parseArrayString(String[] array, String value,
-			String split) {
+										   String split) {
 		if (array == null || StringUtils.isEmpty(value))
 			return false;
 
@@ -148,7 +148,7 @@ public class StringUtils {
 
 		return default_value;
 	}
-	
+
 	public static float parseFloat(String value, float default_value){
 		try {
 			return Float.parseFloat(value);
@@ -168,22 +168,22 @@ public class StringUtils {
 
 		return default_value;
 	}
-	
+
 	public static String subString(String src, String find, int second) {
 		int index = - find.length(), n = 0;
 		do {
 			int end = src.indexOf(find, index + find.length());
 			if (end < 0) break;
-			
+
 			n ++;
 			index = end;
 			if (n == second) return src.substring(0, index);
-			
+
 		} while (index > 0 && n < second);
-		
+
 		return src;
 	}
-	
+
 	public static String delString(String src, String db, String de) {
 		int index = - db.length();
 		do {
@@ -196,7 +196,7 @@ public class StringUtils {
 					src = src.substring(0, index);
 			}
 		} while (index > 0);
-		
+
 		return src;
 	}
 
@@ -219,7 +219,7 @@ public class StringUtils {
 
 		return default_value;
 	}
-	
+
 	public static boolean isASCII(String str) {
 		if (isEmpty(str))
 			return false;
@@ -230,17 +230,17 @@ public class StringUtils {
 		}
 		return true;
 	}
-	
+
 	/*
-	 * ¸Ãº¯Êı´ÓurlÖĞ»ñµÃÄ³¸ö²ÎÊıµÄÖµ
-	 * ×¢Òâ£º¸Ã·½·¨Î´¼ì²âurlµÄºÏ·¨ĞÔ
+	 * è¯¥å‡½æ•°ä»urlä¸­è·å¾—æŸä¸ªå‚æ•°çš„å€¼
+	 * æ³¨æ„ï¼šè¯¥æ–¹æ³•æœªæ£€æµ‹urlçš„åˆæ³•æ€§
 	 */
 	public static String getParameterFromUrl(String url, String key){
 		String value = null;
 		if(url != null && url.contains("?")){
 			int parambeginIndex = url.indexOf("?");
 			int keyIndex = -1;
-			//ÕÒµ½keyµÄÎ»ÖÃ
+			//æ‰¾åˆ°keyçš„ä½ç½®
 			keyIndex = url.indexOf("?" + key + "=", parambeginIndex);
 			if(keyIndex < 0 )
 				keyIndex = url.indexOf("&" + key + "=", parambeginIndex);

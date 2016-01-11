@@ -1,10 +1,10 @@
 package com.ustc.engineering.lab410.HeartMonitor.ui.bean;
 
 /*
- * HMÀ¶ÑÀÄ£¿éÔ¶³Ì¿ØÖÆDEMO(for Android)
- * ¼ÃÄÏ»ªÃ¯¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * ²Î¿¼×ÊÁÏ£ºhttp://www.jnhuamao.cn/bluetooth.pdf
- * ±¾³ÌĞòÑİÊ¾ÁËÈçºÎÍ¨¹ıÊÖ»ú¶ÔÔ¶³ÌÀ¶ÑÀÄ£¿é½øĞĞ¿ØÖÆ
+ * HMè“ç‰™æ¨¡å—è¿œç¨‹æ§åˆ¶DEMO(for Android)
+ * æµå—åèŒ‚ç§‘æŠ€æœ‰é™å…¬å¸
+ * å‚è€ƒèµ„æ–™ï¼šhttp://www.jnhuamao.cn/bluetooth.pdf
+ * æœ¬ç¨‹åºæ¼”ç¤ºäº†å¦‚ä½•é€šè¿‡æ‰‹æœºå¯¹è¿œç¨‹è“ç‰™æ¨¡å—è¿›è¡Œæ§åˆ¶
  * E-Mail: webmaster@jnhuamao.cn
  * QQ: 454313
  */

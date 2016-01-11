@@ -54,13 +54,20 @@
                 android:layout_alignParentTop="true"
                 android:text="返回"
                 android:textSize="@dimen/px40" />
-
+            <Button
+                android:id="@+id/btn_start"
+                android:layout_width="@dimen/px200"
+                android:layout_height="@dimen/px180"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/btn_return"
+                android:text="开始"
+                android:textSize="@dimen/px40" />
             <Button
                 android:id="@+id/btn_paraments"
                 android:layout_width="@dimen/px200"
                 android:layout_height="@dimen/px180"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/btn_return"
+                android:layout_below="@+id/btn_start"
                 android:text="参数"
                 android:textSize="@dimen/px40" />
 

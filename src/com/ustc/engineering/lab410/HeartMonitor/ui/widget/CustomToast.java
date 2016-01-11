@@ -11,10 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * ¿ØÖÆToastÏÔÊ¾ ĞÂµÄToastµ½À´Ê±£¬È¡ÏûÇ°Ò»¸öÏÔÊ¾
- * 
+ * æ§åˆ¶Toastæ˜¾ç¤º æ–°çš„Toaståˆ°æ¥æ—¶ï¼Œå–æ¶ˆå‰ä¸€ä¸ªæ˜¾ç¤º
+ *
  * @author gjyuan
- * 
+ *
  */
 public class CustomToast {
 
@@ -24,12 +24,12 @@ public class CustomToast {
 	private static Toast mViewToast;
 
 	/**
-	 * 
+	 *
 	 * @param mContext
 	 * @param text
 	 * @param duration
-	 *            CustomToast LENGTH_SHORT 1Ãë<br/>
-	 *            CustomToast LENGTH_LONG 3Ãë
+	 *            CustomToast LENGTH_SHORT 1ç§’<br/>
+	 *            CustomToast LENGTH_LONG 3ç§’
 	 */
 	public static void showToast(Context mContext, String text, int duration) {
 		if (mContext == null)
@@ -46,7 +46,7 @@ public class CustomToast {
 	}
 
 	public static void showViewToast(Context mContext, String text,
-			int duration) {
+									 int duration) {
 		if (mViewToast == null) {
 			mViewToast = new Toast(mContext);
 		}

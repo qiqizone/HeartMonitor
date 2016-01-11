@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * fragment需要继承此类，并且使用fragment的activity需要实现继承与BaseFragmentShell，并实现MessageListener接口
+ * fragment闇�瑕佺户鎵挎绫伙紝骞朵笖浣跨敤fragment鐨刟ctivity闇�瑕佸疄鐜扮户鎵夸笌BaseFragmentShell锛屽苟瀹炵幇MessageListener鎺ュ彛锟斤拷要锟教承达拷锟洁，锟斤拷锟斤拷使锟斤拷fragment锟斤拷activity锟斤拷要实锟街继筹拷锟斤拷BaseFragmentShell锟斤拷锟斤拷实锟斤拷MessageListener锟接匡拷
  * @author qingwu
  *
  */
@@ -24,7 +24,7 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		//调用子类方法
+		//锟斤拷锟斤拷锟斤拷锟洁方锟斤拷
 		return onCreateFragmentView(inflater, container, savedInstanceState);
 	}
 

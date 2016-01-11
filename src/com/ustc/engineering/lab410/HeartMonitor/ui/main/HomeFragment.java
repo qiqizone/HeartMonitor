@@ -59,72 +59,72 @@ import android.widget.Toast;
 
 public class HomeFragment extends Fragment implements OnClickListener{
 
-   private Button On,Off,Visible,searchList;
-   static final String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
-   private UUID uuid ;
-   private BluetoothAdapter mBluetoothAdapterBA;
-   private Set<BluetoothDevice>pairedDevices;
-   private ListView lv;
-   private View mRootView = null;
-   private Context mContext;
-   private List<BluetoothDevice> deviceList;
-   private List<String> lstDevices = new ArrayList<String>();	
-   private ArrayAdapter<String> adtDevices;
+	private Button On,Off,Visible,searchList;
+	static final String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
+	private UUID uuid ;
+	private BluetoothAdapter mBluetoothAdapterBA;
+	private Set<BluetoothDevice>pairedDevices;
+	private ListView lv;
+	private View mRootView = null;
+	private Context mContext;
+	private List<BluetoothDevice> deviceList;
+	private List<String> lstDevices = new ArrayList<String>();
+	private ArrayAdapter<String> adtDevices;
 	private RecordFragment recordFragment;
 
-   private final String lockName = "BOLUTEK";
-	
+	private final String lockName = "BOLUTEK";
 
-   public void on(View view){
-	   mBluetoothAdapterBA = BluetoothAdapter.getDefaultAdapter();
-      if (!mBluetoothAdapterBA.isEnabled()) {
-         Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-         startActivityForResult(turnOn, 0);
-         CustomToast.showToast(mContext, "´ò¿ªÀ¶ÑÀ", CustomToast.LENGTH_LONG);
-      }
-      else{
-    	  CustomToast.showToast(mContext, "À¶ÑÀÒÑ¾­´ò¿ª", CustomToast.LENGTH_LONG);
-         }
-   }
-   public void searchList(View view){
+
+	public void on(View view){
+		mBluetoothAdapterBA = BluetoothAdapter.getDefaultAdapter();
+		if (!mBluetoothAdapterBA.isEnabled()) {
+			Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(turnOn, 0);
+			CustomToast.showToast(mContext, "æ‰“å¼€è“ç‰™", CustomToast.LENGTH_LONG);
+		}
+		else{
+			CustomToast.showToast(mContext, "è“ç‰™å·²ç»æ‰“å¼€", CustomToast.LENGTH_LONG);
+		}
+	}
+	public void searchList(View view){
 
 //      pairedDevices = mBluetoothAdapterBA.getBondedDevices();
-//      
+//
 //      ArrayList list = new ArrayList();
 //      for(BluetoothDevice bt : pairedDevices)
 //         list.add(bt.getName());
 //
-//      CustomToast.showToast(mContext, "¿ÉÓÃÅä¶ÔÉè±¸", CustomToast.LENGTH_LONG);
-//      
+//      CustomToast.showToast(mContext, "å¯ç”¨é…å¯¹è®¾å¤‡", CustomToast.LENGTH_LONG);
+//
 //      final ArrayAdapter adapter = new ArrayAdapter(mContext,android.R.layout.simple_list_item_1);
 //      lv.setAdapter(adapter);
-//	   getActivity().setProgressBarIndeterminateVisibility(true);  
-//       getActivity().setTitle("ÕıÔÚÉ¨Ãè....");  
-      if (mBluetoothAdapterBA.getState() == BluetoothAdapter.STATE_OFF) {// Èç¹ûÀ¶ÑÀ»¹Ã»¿ªÆô
-			CustomToast.showToast(mContext, "ÇëÏÈ´ò¿ªÀ¶ÑÀ", CustomToast.LENGTH_LONG);
+//	   getActivity().setProgressBarIndeterminateVisibility(true);
+//       getActivity().setTitle("æ­£åœ¨æ‰«æ....");
+		if (mBluetoothAdapterBA.getState() == BluetoothAdapter.STATE_OFF) {// å¦‚æœè“ç‰™è¿˜æ²¡å¼€å¯
+			CustomToast.showToast(mContext, "è¯·å…ˆæ‰“å¼€è“ç‰™", CustomToast.LENGTH_LONG);
 			return;
 		}
-		getActivity().setTitle("±¾»úÀ¶ÑÀµØÖ·£º" + mBluetoothAdapterBA.getAddress());
+		getActivity().setTitle("æœ¬æœºè“ç‰™åœ°å€ï¼š" + mBluetoothAdapterBA.getAddress());
 //		lstDevices.clear();
 		mBluetoothAdapterBA.startDiscovery();
-   }
-   
-   public void off(View view){
-	  mBluetoothAdapterBA.disable();
-      CustomToast.showToast(mContext, "¹Ø±ÕÀ¶ÑÀ", CustomToast.LENGTH_LONG);
-   }
-   
-   public void visible(View view){
-      Intent getVisible = new Intent(BluetoothAdapter.
-      ACTION_REQUEST_DISCOVERABLE);
-      getVisible.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 3600); //3600ÎªÀ¶ÑÀÉè±¸¿É¼ûÊ±¼ä
-      startActivityForResult(getVisible, 0);
-   }
-	   
+	}
+
+	public void off(View view){
+		mBluetoothAdapterBA.disable();
+		CustomToast.showToast(mContext, "å…³é—­è“ç‰™", CustomToast.LENGTH_LONG);
+	}
+
+	public void visible(View view){
+		Intent getVisible = new Intent(BluetoothAdapter.
+				ACTION_REQUEST_DISCOVERABLE);
+		getVisible.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 3600); //3600ä¸ºè“ç‰™è®¾å¤‡å¯è§æ—¶é—´
+		startActivityForResult(getVisible, 0);
+	}
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		if (mRootView == null) {
 			mRootView = inflater.inflate(R.layout.record_fragment,
@@ -140,55 +140,55 @@ public class HomeFragment extends Fragment implements OnClickListener{
 
 	private void initView() {
 		// TODO Auto-generated method stub
-	
-	    On = (Button) mRootView.findViewById(R.id.on);
-	    On.setOnClickListener(this);
-	    Visible = (Button)mRootView.findViewById(R.id.set_visible);
-	    Visible.setOnClickListener(this);
-	    searchList = (Button)mRootView.findViewById(R.id.search_list);
-	    searchList.setOnClickListener(this);
-	    Off = (Button)mRootView.findViewById(R.id.off);
-	    Off.setOnClickListener(this);
-	    lv = (ListView)mRootView.findViewById(R.id.listView1);
-	    mContext = mRootView.getContext();
-	    adtDevices = new ArrayAdapter<String>(mContext,
+
+		On = (Button) mRootView.findViewById(R.id.on);
+		On.setOnClickListener(this);
+		Visible = (Button)mRootView.findViewById(R.id.set_visible);
+		Visible.setOnClickListener(this);
+		searchList = (Button)mRootView.findViewById(R.id.search_list);
+		searchList.setOnClickListener(this);
+		Off = (Button)mRootView.findViewById(R.id.off);
+		Off.setOnClickListener(this);
+		lv = (ListView)mRootView.findViewById(R.id.listView1);
+		mContext = mRootView.getContext();
+		adtDevices = new ArrayAdapter<String>(mContext,
 				android.R.layout.simple_list_item_1, lstDevices);
-	    lv.setAdapter(adtDevices);
-	    lv.setOnItemClickListener(new ItemClickEvent());
-	    mBluetoothAdapterBA = BluetoothAdapter.getDefaultAdapter();// ³õÊ¼»¯±¾»úÀ¶ÑÀ¹¦ÄÜ
+		lv.setAdapter(adtDevices);
+		lv.setOnItemClickListener(new ItemClickEvent());
+		mBluetoothAdapterBA = BluetoothAdapter.getDefaultAdapter();// åˆå§‹åŒ–æœ¬æœºè“ç‰™åŠŸèƒ½
 		uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-		
+
 		if(mBluetoothAdapterBA == null){
 			getActivity().finish();
 			return;
 		}
 		else{
-		
-			if (mBluetoothAdapterBA.getState() == BluetoothAdapter.STATE_OFF)// ¶ÁÈ¡À¶ÑÀ×´Ì¬²¢ÏÔÊ¾
-				{
-					CustomToast.showToast(mContext, "À¶ÑÀÉĞÎ´´ò¿ª,·şÎñ¶ËĞèÏÈ´ò¿ªÀ¶ÑÀ", CustomToast.LENGTH_LONG);
-				}
+
+			if (mBluetoothAdapterBA.getState() == BluetoothAdapter.STATE_OFF)// è¯»å–è“ç‰™çŠ¶æ€å¹¶æ˜¾ç¤º
+			{
+				CustomToast.showToast(mContext, "è“ç‰™å°šæœªæ‰“å¼€,æœåŠ¡ç«¯éœ€å…ˆæ‰“å¼€è“ç‰™", CustomToast.LENGTH_LONG);
+			}
 			else if (mBluetoothAdapterBA.getState() == BluetoothAdapter.STATE_ON){
-			
-				//·şÎñ¶Ë¼àÌı
+
+				//æœåŠ¡ç«¯ç›‘å¬
 //				serverThread=new AcceptThread();
 //				serverThread.start();
-				
-			}
-	
 
-		
-		}	
+			}
+
+
+
+		}
 	}
-	
-	
+
+
 	class ItemClickEvent implements AdapterView.OnItemClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
-			if (mBluetoothAdapterBA.getState() != BluetoothAdapter.STATE_ON) {// Èç¹ûÀ¶ÑÀ»¹Ã»¿ªÆô
-				CustomToast.showToast(mContext, "Çë¿ªÆôÀ¶ÑÀ", CustomToast.LENGTH_LONG);
+								long arg3) {
+			if (mBluetoothAdapterBA.getState() != BluetoothAdapter.STATE_ON) {// å¦‚æœè“ç‰™è¿˜æ²¡å¼€å¯
+				CustomToast.showToast(mContext, "è¯·å¼€å¯è“ç‰™", CustomToast.LENGTH_LONG);
 				return;
 			}
 
@@ -200,9 +200,9 @@ public class HomeFragment extends Fragment implements OnClickListener{
 			String[] values = str.split("\\|");
 			String address = values[1];
 			Log.e("onItemClick:value", values[1]);
-			
-//		
-//			if(null == recordFragment){//¿ÉÒÔ±ÜÃâÇĞ»»µÄÊ±ºòÖØ¸´´´½¨
+
+//
+//			if(null == recordFragment){//å¯ä»¥é¿å…åˆ‡æ¢çš„æ—¶å€™é‡å¤åˆ›å»º
 //				recordFragment = new RecordFragment();
 //			}
 //			if(!recordFragment.isAdded()){
@@ -217,21 +217,21 @@ public class HomeFragment extends Fragment implements OnClickListener{
 //				fragmentTransaction.addToBackStack(null);
 //				fragmentTransaction.commitAllowingStateLoss();
 //			}
-			
+
 //			MainActivity.setTabStyle(false, 0);
-//			
-			
+//
+
 //			MainActivity.mTxt_home.setTextColor(Color.BLACK);
 //			MainActivity.mImg_home.setImageResource(MainActivity.mNorDrawable[0]);
-//			
+//
 //			MainActivity.mTxt_record.setTextColor(Color.WHITE);
 //			MainActivity.mImg_record.setImageResource(MainActivity.mPreDrawable[1]);
-//            
+//
 //			RecordFragment recordFragment = new RecordFragment();
 //			FragmentTransaction transaction =getFragmentManager().beginTransaction();
 //			transaction.replace(R.id.tab_content_layout,recordFragment);
 //			transaction.commit();
-			
+
 //			try {
 //				Intent intMain = new Intent(mContext, RecordFragment.class);
 //            	Bundle bd = new Bundle();
@@ -248,7 +248,7 @@ public class HomeFragment extends Fragment implements OnClickListener{
 
 	}
 
-	
+
 	private BroadcastReceiver searchDevices = new BroadcastReceiver() {
 
 		public void onReceive(Context context, Intent intent) {
@@ -256,90 +256,90 @@ public class HomeFragment extends Fragment implements OnClickListener{
 			Bundle b = intent.getExtras();
 			Object[] lstName = b.keySet().toArray();
 
-			// ÏÔÊ¾ËùÓĞÊÕµ½µÄÏûÏ¢¼°ÆäÏ¸½Ú
+			// æ˜¾ç¤ºæ‰€æœ‰æ”¶åˆ°çš„æ¶ˆæ¯åŠå…¶ç»†èŠ‚
 			for (int i = 0; i < lstName.length; i++) {
 				String keyName = lstName[i].toString();
 				Log.e(keyName, String.valueOf(b.get(keyName)));
 			}
-			//ËÑË÷Éè±¸Ê±£¬È¡µÃÉè±¸µÄMACµØÖ·
+			//æœç´¢è®¾å¤‡æ—¶ï¼Œå–å¾—è®¾å¤‡çš„MACåœ°å€
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 				BluetoothDevice device = intent
 						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 				String str= device.getName() + "|" + device.getAddress();
-				
-				if (lstDevices.indexOf(str) == -1)// ·ÀÖ¹ÖØ¸´Ìí¼Ó
-					lstDevices.add(str); // »ñÈ¡Éè±¸Ãû³ÆºÍmacµØÖ·
+
+				if (lstDevices.indexOf(str) == -1)// é˜²æ­¢é‡å¤æ·»åŠ 
+					lstDevices.add(str); // è·å–è®¾å¤‡åç§°å’Œmacåœ°å€
 				if (lstDevices.indexOf("null|" + device.getAddress()) != -1)
 					lstDevices.set(lstDevices.indexOf("null|" + device.getAddress()), str);
 				adtDevices.notifyDataSetChanged();
 			} else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_STARTED)) {
-				searchList.setText("ÕıÔÚÉ¨Ãè");
+				searchList.setText("æ­£åœ¨æ‰«æ");
 				searchList.setTextColor(Color.RED);
 			} else if (action
 					.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
-				searchList.setText("É¨ÃèÉè±¸");
+				searchList.setText("æ‰«æè®¾å¤‡");
 				searchList.setTextColor(Color.BLACK);
-				CustomToast.showToast(mContext, "É¨ÃèÍê³É£¬µã»÷ÁĞ±íÖĞµÄÉè±¸À´³¢ÊÔÁ¬½Ó", CustomToast.LENGTH_LONG);
+				CustomToast.showToast(mContext, "æ‰«æå®Œæˆï¼Œç‚¹å‡»åˆ—è¡¨ä¸­çš„è®¾å¤‡æ¥å°è¯•è¿æ¥", CustomToast.LENGTH_LONG);
 			}
 		}
 	};
 
 
-	
-//	  @Override  
-//	    public void onAttach(Activity activity) {  
-//			
-//	        super.onAttach(activity);  
-//	    }  
-	  
-	  @Override  
-	  public void onResume() {
-		// ×¢²áReceiverÀ´»ñÈ¡À¶ÑÀÉè±¸Ïà¹ØµÄ½á¹û
-					IntentFilter intent = new IntentFilter();
-					intent.addAction(BluetoothDevice.ACTION_FOUND);// ÓÃBroadcastReceiverÀ´È¡µÃËÑË÷½á¹û
-					intent.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-					intent.addAction(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
-					intent.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
-					getActivity().registerReceiver(searchDevices, intent);
-					super.onResume();
-	  }
-	  
-	   /**
-     *×¢Ïú¹ã²¥
-     * */  
-    @Override  
-    public void onDestroyView() {  
-       getActivity().unregisterReceiver(searchDevices);  
-       super.onDestroyView();  
-    }  
+
+//	  @Override
+//	    public void onAttach(Activity activity) {
+//
+//	        super.onAttach(activity);
+//	    }
+
+	@Override
+	public void onResume() {
+		// æ³¨å†ŒReceiveræ¥è·å–è“ç‰™è®¾å¤‡ç›¸å…³çš„ç»“æœ
+		IntentFilter intent = new IntentFilter();
+		intent.addAction(BluetoothDevice.ACTION_FOUND);// ç”¨BroadcastReceiveræ¥å–å¾—æœç´¢ç»“æœ
+		intent.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+		intent.addAction(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
+		intent.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+		getActivity().registerReceiver(searchDevices, intent);
+		super.onResume();
+	}
+
+	/**
+	 *æ³¨é”€å¹¿æ’­
+	 * */
+	@Override
+	public void onDestroyView() {
+		getActivity().unregisterReceiver(searchDevices);
+		super.onDestroyView();
+	}
 
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.on:
-			on(v);
-			Log.d("onClick","button1");
-			break;
-		case R.id.set_visible:
-			visible(v);
-			Log.d("onClick","button2");
-			break;
-		case R.id.search_list:
-			searchList(v);
-			Log.d("onClick","button3");
-			break;
-		case R.id.off:
-			off(v);
-			Log.d("onClick","button4");
-			break;
-		default:
-			break;
-		}	
+			case R.id.on:
+				on(v);
+				Log.d("onClick","button1");
+				break;
+			case R.id.set_visible:
+				visible(v);
+				Log.d("onClick","button2");
+				break;
+			case R.id.search_list:
+				searchList(v);
+				Log.d("onClick","button3");
+				break;
+			case R.id.off:
+				off(v);
+				Log.d("onClick","button4");
+				break;
+			default:
+				break;
+		}
 	}
 
 
- 
-    
+
+
 }

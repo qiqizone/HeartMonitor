@@ -5,53 +5,53 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * ´¦ÀíÊ±¼ä¸ñÊ½£¬¸ù¾Ý²»Í¬ÉèÖÃÆ¥Åä²»Í¬¸ñÊ½µÄÊ±¼äÖµ
- * 
+ * å¤„ç†æ—¶é—´æ ¼å¼ï¼Œæ ¹æ®ä¸åŒè®¾ç½®åŒ¹é…ä¸åŒæ ¼å¼çš„æ—¶é—´å€¼
+ *
  * @author Tiny
- * @version [°æ±¾ºÅ, 2012-4-22]
+ * @version [ç‰ˆæœ¬å·, 2012-4-22]
  */
 public abstract class TimeFormatter
 {
 
     /**
-     * ÆÕÍ¨Ä£Ê½HH:mm:ss
+     * æ™®é€šæ¨¡å¼HH:mm:ss
      */
     public static final byte TIME_REGULAR = 0;
 
     /**
-     * ¾«È·Ä£Ê½yyyy-MM-dd HH:mm:ss
+     * ç²¾ç¡®æ¨¡å¼yyyy-MM-dd HH:mm:ss
      */
     public static final byte TIME_ACCURATE = 1;
 
     /**
-     * ¿Õ¸ñ
+     * ç©ºæ ¼
      */
     private static String space = " ";
 
     /**
-     * Ã°ºÅ
+     * å†’å·
      */
     private static String colon = ":";
 
     /**
-     * Ë®Æ½Ïß
+     * æ°´å¹³çº¿
      */
     private static String horizontalline = "-";
 
     /**
-     * ·µ»Øµ±Ç°Ê±¼ä
-     * 
-     * @param mode 
-     *            Ëù·µ»ØµÄÊ±¼äÄ£Ê½£¬TIME_REGULARÎªÆÕÍ¨Ä£Ê½HH:mm:ss£¬TIME_ACCURATEÎª¾«È·Ä£Ê½yyyy-MM
+     * è¿”å›žå½“å‰æ—¶é—´
+     *
+     * @param mode
+     *            æ‰€è¿”å›žçš„æ—¶é—´æ¨¡å¼ï¼ŒTIME_REGULARä¸ºæ™®é€šæ¨¡å¼HH:mm:ssï¼ŒTIME_ACCURATEä¸ºç²¾ç¡®æ¨¡å¼yyyy-MM
      *            -dd HH:mm:ss
      * @param locale Locale
-     * @return µ±Ç°Ê±¼ä
+     * @return å½“å‰æ—¶é—´
      */
     public static String nowTime(final int mode, final Locale locale)
     {
         final Calendar calendar = Calendar.getInstance(locale);
 
-        // ÔÚÊÖ»úÉÏÔÂ·ÝÐèÒª¼Ó1²Å¿ÉÒÔÕýÈ·ÏÔÊ¾
+        // åœ¨æ‰‹æœºä¸Šæœˆä»½éœ€è¦åŠ 1æ‰å¯ä»¥æ­£ç¡®æ˜¾ç¤º
         final int yInt = calendar.get(Calendar.YEAR);
         final int moInt = calendar.get(Calendar.MONTH) + 1;
         final int dInt = calendar.get(Calendar.DATE);
@@ -114,20 +114,20 @@ public abstract class TimeFormatter
     }
 
     /**
-     * ·µ»Øµ±Ç°Ê±¼ä
-     * 
-     * @param mode 
-     *            Ëù·µ»ØµÄÊ±¼äÄ£Ê½£¬TIME_REGULARÎªÆÕÍ¨Ä£Ê½HH:mm:ss£¬TIME_ACCURATEÎª¾«È·Ä£Ê½yyyy-MM
+     * è¿”å›žå½“å‰æ—¶é—´
+     *
+     * @param mode
+     *            æ‰€è¿”å›žçš„æ—¶é—´æ¨¡å¼ï¼ŒTIME_REGULARä¸ºæ™®é€šæ¨¡å¼HH:mm:ssï¼ŒTIME_ACCURATEä¸ºç²¾ç¡®æ¨¡å¼yyyy-MM
      *            -dd HH:mm:ss
-     * @return µ±Ç°Ê±¼ä
+     * @return å½“å‰æ—¶é—´
      */
     public static String nowTime(final int mode)
     {
         return nowTime(mode, Locale.CHINA);
     }
-    
+
     /**
-     * ÊÇ·ñ½ñÌìÖ®áá
+     * æ˜¯å¦ä»Šå¤©ä¹‹å¾Œ
      * @param year
      * @param month
      * @param day
@@ -135,27 +135,27 @@ public abstract class TimeFormatter
      */
     public static boolean checkBeyondToday(int year,int month, int day){
 
-    	Calendar ca = Calendar.getInstance();
-    	int nowYear = ca.get(Calendar.YEAR);
-    	int nowMonth = ca.get(Calendar.MONTH) + 1;
-    	int nowDay = ca.get(Calendar.DATE);
-    	String now = nowYear + "/" + nowMonth + "/" + nowDay;
-    	if(year>nowYear){
-    		return true;
-    	}else if(year < nowYear){
-    		return false;
-    	}
-    	
-    	if(month > nowMonth){
-    		return true;
-    	}else if(month < nowMonth){
-    		return false;
-    	}
-    	
-    	if(day > nowDay){
-    		return true;
-    	}else{
-    		return false;
-    	}		
+        Calendar ca = Calendar.getInstance();
+        int nowYear = ca.get(Calendar.YEAR);
+        int nowMonth = ca.get(Calendar.MONTH) + 1;
+        int nowDay = ca.get(Calendar.DATE);
+        String now = nowYear + "/" + nowMonth + "/" + nowDay;
+        if(year>nowYear){
+            return true;
+        }else if(year < nowYear){
+            return false;
+        }
+
+        if(month > nowMonth){
+            return true;
+        }else if(month < nowMonth){
+            return false;
+        }
+
+        if(day > nowDay){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

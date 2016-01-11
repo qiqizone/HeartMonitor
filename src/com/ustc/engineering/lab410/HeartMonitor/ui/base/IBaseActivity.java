@@ -4,32 +4,32 @@ import android.os.Bundle;
 public abstract interface IBaseActivity {
 
 	/**
-	 * ´´½¨£¬activity onCreate Ê±µ÷ÓÃ 
-	 * ÔÚÕâÀï½øĞĞUI°ó¶¨£¬Í¬activityonCreateÊÂ¼ş
-	 * 
+	 * åˆ›å»ºï¼Œactivity onCreate æ—¶è°ƒç”¨
+	 * åœ¨è¿™é‡Œè¿›è¡ŒUIç»‘å®šï¼ŒåŒactivityonCreateäº‹ä»¶
+	 *
 	 * @param savedInstanceState
 	 */
 	public abstract void onCreateActivity(Bundle savedInstanceState);
-	
+
 	/**
-	 * ÔİÍ££¬activity onPause Ê±µ÷ÓÃ 
+	 * æš‚åœï¼Œactivity onPause æ—¶è°ƒç”¨
 	 */
 	public abstract void onPauseActivity();
-	
+
 	/**
-	 * »Ö¸´£¬activity onResume Ê±µ÷ÓÃ 
-	 * ÔÚÕâÀï»Ö¸´Ò³ÃæÏà¹ØÊı¾İ
+	 * æ¢å¤ï¼Œactivity onResume æ—¶è°ƒç”¨
+	 * åœ¨è¿™é‡Œæ¢å¤é¡µé¢ç›¸å…³æ•°æ®
 	 */
 	public abstract void onResumeActivity();
-	
+
 	/**
-	 * ÊÍ·Å£¬activity onDestroy Ê±µ÷ÓÃ 
-	 * ÔÚÕâÀï½øĞĞ×ÊÔ´µÄÊÍ·Å
+	 * é‡Šæ”¾ï¼Œactivity onDestroy æ—¶è°ƒç”¨
+	 * åœ¨è¿™é‡Œè¿›è¡Œèµ„æºçš„é‡Šæ”¾
 	 */
 	public abstract void onDestroyActivity();
-	
+
 	/**
-	 * »ñÈ¡ÀàÃû
+	 * è·å–ç±»å
 	 */
 	public abstract String getClassName();
 

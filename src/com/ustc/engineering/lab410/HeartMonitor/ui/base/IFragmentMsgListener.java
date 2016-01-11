@@ -4,7 +4,7 @@ import android.os.Message;
 
 public interface IFragmentMsgListener {
 	/**
-	 * 接收消息
+	 * 鎺ユ敹娑堟伅
 	 * 
 	 * @param msg
 	 */

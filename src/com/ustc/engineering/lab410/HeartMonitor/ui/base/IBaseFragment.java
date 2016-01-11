@@ -6,42 +6,42 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * fragmentÏà¹Ø½Ó¿Ú£¬¿É¸ù¾İĞèÇóÌí¼Ó
+ * fragmentç›¸å…³æ¥å£ï¼Œå¯æ ¹æ®éœ€æ±‚æ·»åŠ 
  * @author qingwu
  *
  */
 public interface IBaseFragment {
 
 	/**
-	 * fragment´´½¨
+	 * fragmentåˆ›å»º
 	 * @param savedInstanceState
 	 */
 	public abstract void onFragmentCreate(Bundle savedInstanceState);
-	
+
 	/**
-	 * fragment´´½¨½çÃæ,UI³õÊ¼»¯ÔÚ´ËÍê³É
+	 * fragmentåˆ›å»ºç•Œé¢,UIåˆå§‹åŒ–åœ¨æ­¤å®Œæˆ
 	 * @param inflater
 	 * @param container
 	 * @param savedInstanceState
 	 * @return
 	 */
 	public abstract View onCreateFragmentView(LayoutInflater inflater,
-			ViewGroup container, Bundle savedInstanceState);
-	
+											  ViewGroup container, Bundle savedInstanceState);
+
 	/**
-	 * Fragment»Ö¸´£¨running£©
+	 * Fragmentæ¢å¤ï¼ˆrunningï¼‰
 	 * @param savedInstanceState
 	 */
 	public abstract void onFragmentResume();
-	
+
 	/**
-	 * FragmentÔİÍ£
+	 * Fragmentæš‚åœ
 	 * @param savedInstanceState
 	 */
 	public abstract void onFragmentPause();
-	
+
 	/**
-	 * fragmentÏú»Ù½çÃæ
+	 * fragmenté”€æ¯ç•Œé¢
 	 * @param inflater
 	 * @param container
 	 * @param savedInstanceState
@@ -49,9 +49,9 @@ public interface IBaseFragment {
 	 */
 	public abstract View onFragmentDestroyView();
 
-	
+
 	/**
-	 * fragmentÏú»Ù
+	 * fragmenté”€æ¯
 	 */
 	public abstract void onFragmentDestroy();
 }

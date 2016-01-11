@@ -1,10 +1,10 @@
 package com.ustc.engineering.lab410.HeartMonitor.ui.main;
 
 /*
- * HMÀ¶ÑÀÄ£¿éÔ¶³Ì¿ØÖÆDEMO(for Android)
- * ¼ÃÄÏ»ªÃ¯¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * ²Î¿¼×ÊÁÏ£ºhttp://www.jnhuamao.cn/bluetooth.pdf
- * ±¾³ÌĞòÑİÊ¾ÁËÈçºÎÍ¨¹ıÊÖ»ú¶ÔÔ¶³ÌÀ¶ÑÀÄ£¿é½øĞĞ¿ØÖÆ
+ * HMè“ç‰™æ¨¡å—è¿œç¨‹æ§åˆ¶DEMO(for Android)
+ * æµå—åèŒ‚ç§‘æŠ€æœ‰é™å…¬å¸
+ * å‚è€ƒèµ„æ–™ï¼šhttp://www.jnhuamao.cn/bluetooth.pdf
+ * æœ¬ç¨‹åºæ¼”ç¤ºäº†å¦‚ä½•é€šè¿‡æ‰‹æœºå¯¹è¿œç¨‹è“ç‰™æ¨¡å—è¿›è¡Œæ§åˆ¶
  * E-Mail: webmaster@jnhuamao.cn
  * QQ: 454313
  */
@@ -57,9 +57,9 @@ public class showDetail extends Activity implements OnClickListener {
 	private InputStream mmInStream;
 	private OutputStream mmOutStream;
 	ScrollView svResult;
-	
-	private ArrayList<Integer> nNeeds; //ĞèÒªµÄ³¤¶È
-	private ArrayList<String>  sRecvs; //´æ·Å½ÓÊÕµÄÊı¾İ
+
+	private ArrayList<Integer> nNeeds; //éœ€è¦çš„é•¿åº¦
+	private ArrayList<String>  sRecvs; //å­˜æ”¾æ¥æ”¶çš„æ•°æ®
 	private int nCurrent;
 
 	Button btnSend;
@@ -97,13 +97,13 @@ public class showDetail extends Activity implements OnClickListener {
 
 		btAdapt = BluetoothAdapter.getDefaultAdapter();
 		if (btAdapt == null) {
-			tvLog.append("±¾»úÎŞÀ¶ÑÀ£¬Á¬½ÓÊ§°Ü\n");
+			tvLog.append("æœ¬æœºæ— è“ç‰™ï¼Œè¿æ¥å¤±è´¥\n");
 			finish();
 			return;
 		}
 
 		if (btAdapt.getState() != BluetoothAdapter.STATE_ON) {
-			tvLog.append("±¾»úÀ¶ÑÀ×´Ì¬²»Õı³££¬Á¬½ÓÊ§°Ü\n");
+			tvLog.append("æœ¬æœºè“ç‰™çŠ¶æ€ä¸æ­£å¸¸ï¼Œè¿æ¥å¤±è´¥\n");
 			finish();
 			return;
 		}
@@ -117,143 +117,134 @@ public class showDetail extends Activity implements OnClickListener {
 		mHandler.sendEmptyMessageDelayed(Common.MESSAGE_CONNECT, 1000);
 	}
 
-	public void setButtonColor(Button btn, Boolean bOn) {
-		if (bOn) {
-			btn.setTextColor(Color.GREEN);
-			btn.setId(1);
-		} else {
-			btn.setTextColor(Color.BLACK);
-			btn.setId(0);
-		}
-	}
 
 	// Hander
 	public final Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case Common.MESSAGE_CONNECT:
-				new Thread(new Runnable() {
-					public void run() {
-						InputStream tmpIn;
-						OutputStream tmpOut;
-						BluetoothSocket tmp = null;
-						try {
-							
-							UUID uuid = UUID.fromString(SPP_UUID);
-							BluetoothDevice btDev = btAdapt
-									.getRemoteDevice(strAddress);
-							Method m;
+				case Common.MESSAGE_CONNECT:
+					new Thread(new Runnable() {
+						public void run() {
+							InputStream tmpIn;
+							OutputStream tmpOut;
+							BluetoothSocket tmp = null;
 							try {
-								m = btDev.getClass().getMethod("createRfcommSocket", new Class[] {int.class});
-								tmp = (BluetoothSocket) m.invoke(btDev, Integer.valueOf(1));
-							} catch (SecurityException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} catch (NoSuchMethodException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} catch (IllegalArgumentException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (IllegalAccessException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (InvocationTargetException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							btSocket = tmp;
-//							btSocket = btDev.createRfcommSocketToServiceRecord(uuid);
-									//.createRfcommSocketToServiceRecord(uuid);
-							btSocket.connect();
-							tmpIn = btSocket.getInputStream();
-							tmpOut = btSocket.getOutputStream();
-							
-						} catch (Exception e) {
-							Log.d(Common.TAG, "Error connected to: "
-									+ strAddress);
-							bConnect = false;
-							mmInStream = null;
-							mmOutStream = null;
-							btSocket = null;
-							e.printStackTrace();
-							mHandler.sendEmptyMessage(Common.MESSAGE_CONNECT_LOST);
-							return;
-						}
-						mmInStream = tmpIn;
-						mmOutStream = tmpOut;
-						mHandler.sendEmptyMessage(Common.MESSAGE_CONNECT_SUCCEED);
 
-					}
-
-				}).start();
-				break;
-			case Common.MESSAGE_CONNECT_SUCCEED:
-				addLog("Á¬½Ó³É¹¦");
-				bConnect = true;
-				new Thread(new Runnable() {
-					public void run() {
-						byte[] bufRecv = new byte[1024];
-						int nRecv = 0;
-						while (bConnect) {
-							try {
-								nRecv = mmInStream.read(bufRecv);
-								if (nRecv < 1) {
-									Thread.sleep(100);
-									continue;
+								UUID uuid = UUID.fromString(SPP_UUID);
+								BluetoothDevice btDev = btAdapt
+										.getRemoteDevice(strAddress);
+								Method m;
+								try {
+									m = btDev.getClass().getMethod("createRfcommSocket", new Class[] {int.class});
+									tmp = (BluetoothSocket) m.invoke(btDev, Integer.valueOf(1));
+								} catch (SecurityException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (NoSuchMethodException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (IllegalArgumentException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (InvocationTargetException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
+								btSocket = tmp;
+//							btSocket = btDev.createRfcommSocketToServiceRecord(uuid);
+								//.createRfcommSocketToServiceRecord(uuid);
+								btSocket.connect();
+								tmpIn = btSocket.getInputStream();
+								tmpOut = btSocket.getOutputStream();
 
-								byte[] nPacket = new byte[nRecv];
-								System.arraycopy(bufRecv, 0, nPacket, 0, nRecv);
-								mHandler.obtainMessage(Common.MESSAGE_RECV,
-										nRecv, -1, nPacket).sendToTarget();
-								Thread.sleep(100);
 							} catch (Exception e) {
-								Log.e(Common.TAG, "Recv thread:" + e.getMessage());
-								mHandler.sendEmptyMessage(Common.MESSAGE_EXCEPTION_RECV);
-								break;
+								Log.d(Common.TAG, "Error connected to: "
+										+ strAddress);
+								bConnect = false;
+								mmInStream = null;
+								mmOutStream = null;
+								btSocket = null;
+								e.printStackTrace();
+								mHandler.sendEmptyMessage(Common.MESSAGE_CONNECT_LOST);
+								return;
 							}
+							mmInStream = tmpIn;
+							mmOutStream = tmpOut;
+							mHandler.sendEmptyMessage(Common.MESSAGE_CONNECT_SUCCEED);
+
 						}
-						Log.e(Common.TAG, "Exit while");
+
+					}).start();
+					break;
+				case Common.MESSAGE_CONNECT_SUCCEED:
+					addLog("è¿æ¥æˆåŠŸ");
+					bConnect = true;
+					new Thread(new Runnable() {
+						public void run() {
+							byte[] bufRecv = new byte[1024];
+							int nRecv = 0;
+							while (bConnect) {
+								try {
+									nRecv = mmInStream.read(bufRecv);
+									if (nRecv < 1) {
+										Thread.sleep(100);
+										continue;
+									}
+
+									byte[] nPacket = new byte[nRecv];
+									System.arraycopy(bufRecv, 0, nPacket, 0, nRecv);
+									mHandler.obtainMessage(Common.MESSAGE_RECV,
+											nRecv, -1, nPacket).sendToTarget();
+									Thread.sleep(100);
+								} catch (Exception e) {
+									Log.e(Common.TAG, "Recv thread:" + e.getMessage());
+									mHandler.sendEmptyMessage(Common.MESSAGE_EXCEPTION_RECV);
+									break;
+								}
+							}
+							Log.e(Common.TAG, "Exit while");
+						}
+					}).start();
+					break;
+				case Common.MESSAGE_EXCEPTION_RECV:
+				case Common.MESSAGE_CONNECT_LOST:
+					addLog("è¿æ¥å¼‚å¸¸ï¼Œè¯·é€€å‡ºæœ¬ç•Œé¢åé‡æ–°è¿æ¥");
+					try {
+						if (mmInStream != null)
+							mmInStream.close();
+						if (mmOutStream != null)
+							mmOutStream.close();
+						if (btSocket != null)
+							btSocket.close();
+					} catch (IOException e) {
+						Log.e(Common.TAG, "Close Error");
+						e.printStackTrace();
+					} finally {
+						mmInStream = null;
+						mmOutStream = null;
+						btSocket = null;
+						bConnect = false;
 					}
-				}).start();
-				break;
-			case Common.MESSAGE_EXCEPTION_RECV:
-			case Common.MESSAGE_CONNECT_LOST:
-				addLog("Á¬½ÓÒì³££¬ÇëÍË³ö±¾½çÃæºóÖØĞÂÁ¬½Ó");
-				try {
-					if (mmInStream != null)
-						mmInStream.close();
-					if (mmOutStream != null)
-						mmOutStream.close();
-					if (btSocket != null)
-						btSocket.close();
-				} catch (IOException e) {
-					Log.e(Common.TAG, "Close Error");
-					e.printStackTrace();
-				} finally {
-					mmInStream = null;
-					mmOutStream = null;
-					btSocket = null;
-					bConnect = false;
-				}
-				break;
-			case Common.MESSAGE_WRITE:
+					break;
+				case Common.MESSAGE_WRITE:
 
-				break;
-			case Common.MESSAGE_READ:
+					break;
+				case Common.MESSAGE_READ:
 
-				break;
-			case Common.MESSAGE_RECV:
-				byte[] bBuf = (byte[]) msg.obj;
-				addLog("½ÓÊÕÊı¾İ: " + bytesToString(bBuf, msg.arg1));
-				break;
-			case Common.MESSAGE_TOAST:
-				Toast.makeText(getApplicationContext(),
-						msg.getData().getString(Common.TOAST),
-						Toast.LENGTH_SHORT).show();
-				break;
+					break;
+				case Common.MESSAGE_RECV:
+					byte[] bBuf = (byte[]) msg.obj;
+					addLog("æ¥æ”¶æ•°æ®: " + bytesToString(bBuf, msg.arg1));
+					break;
+				case Common.MESSAGE_TOAST:
+					Toast.makeText(getApplicationContext(),
+							msg.getData().getString(Common.TOAST),
+							Toast.LENGTH_SHORT).show();
+					break;
 			}
 		}
 	};
@@ -277,7 +268,7 @@ public class showDetail extends Activity implements OnClickListener {
 		super.onDestroy();
 	}
 
-	/* DEMO°æ½ÏÎª¼òµ¥£¬ÔÚ±àĞ´ÄúµÄÓ¦ÓÃÊ±£¬Çë½«´Ëº¯Êı·Åµ½Ïß³ÌÖĞÖ´ĞĞ£¬ÒÔÃâUI²»ÏìÓ¦ */
+	/* DEMOç‰ˆè¾ƒä¸ºç®€å•ï¼Œåœ¨ç¼–å†™æ‚¨çš„åº”ç”¨æ—¶ï¼Œè¯·å°†æ­¤å‡½æ•°æ”¾åˆ°çº¿ç¨‹ä¸­æ‰§è¡Œï¼Œä»¥å…UIä¸å“åº” */
 	public void send(String strValue) {
 		if (!bConnect)
 			return;
@@ -285,30 +276,30 @@ public class showDetail extends Activity implements OnClickListener {
 			if (mmOutStream == null)
 				return;
 			mmOutStream.write(strValue.getBytes());
-			addLog("·¢ËÍ:" + strValue + "\r\n");
+			addLog("å‘é€:" + strValue + "\r\n");
 		} catch (Exception e) {
-			Toast.makeText(this, "·¢ËÍÖ¸ÁîÊ§°Ü!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "å‘é€æŒ‡ä»¤å¤±è´¥!", Toast.LENGTH_SHORT).show();
 			return;
 		}
 	}
-	
-	
-	// °´Å¥ÊÂ¼ş
+
+
+	// æŒ‰é’®äº‹ä»¶
 	class ClickEvent implements View.OnClickListener, View.OnTouchListener {
 		@SuppressLint("ShowToast")
 		@Override
 		public void onClick(View v) {
 			if (v == btnSend) {
 				if (edtSend.length() < 1) {
-					Toast.makeText(showDetail.this, "ÇëÊäÈëÒª·¢ËÍµÄÄÚÈİ~~", 500).show();
+					Toast.makeText(showDetail.this, "è¯·è¾“å…¥è¦å‘é€çš„å†…å®¹~~", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				send(edtSend.getText().toString());
 				return;
 			}
 		}
-		
-		public boolean onTouch(View v, MotionEvent event) {  
+
+		public boolean onTouch(View v, MotionEvent event) {
 			return false;
 		}
 	}
@@ -316,7 +307,7 @@ public class showDetail extends Activity implements OnClickListener {
 	public void closeAndExit() {
 		if (bConnect) {
 			bConnect = false;
-			
+
 			try {
 				Thread.sleep(100);
 				if (mmInStream != null)
@@ -365,13 +356,13 @@ public class showDetail extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.btn_wave:
-			Intent i = new Intent(this, LineChartActivity1.class);
-            startActivity(i);
-            break;
+			case R.id.btn_wave:
+				Intent i = new Intent(this, LineChartActivity1.class);
+				startActivity(i);
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 
