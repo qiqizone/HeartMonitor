@@ -642,39 +642,63 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 			switch (v.getId()) {
 				case R.id.layout1:
 					curDaoLian = 1;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联I", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				case R.id.layout2:
 					curDaoLian = 2;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联II", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				case R.id.layout3:
 					curDaoLian = 3;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联III", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				case R.id.layout4:
 					curDaoLian = 4;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联aVR", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				case R.id.layout5:
 					curDaoLian = 5;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联aVL", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				case R.id.layout6:
 					curDaoLian = 6;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联aVF", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				case R.id.layout7:
 					curDaoLian = 7;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联V1", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				case R.id.layout8:
 					curDaoLian = 8;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联V2", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				case R.id.layout9:
 					curDaoLian = 9;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联V3", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				case R.id.layout10:
 					curDaoLian = 10;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联V4", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				case R.id.layout11:
 					curDaoLian = 11;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联V5", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				case R.id.layout12:
 					curDaoLian = 12;
+					Toast.makeText(LineChartActivity1.this, "当前显示导联V6", Toast.LENGTH_SHORT).show();
+					popWinShare.dismiss();
 					break;
 				default:
 					break;

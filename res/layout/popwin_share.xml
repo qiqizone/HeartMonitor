@@ -20,7 +20,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联1" />
+            android:text="I"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -38,7 +39,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联2" />
+            android:text="II"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -56,7 +58,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联3" />
+            android:text="III"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +77,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联4" />
+            android:text="aVR"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -92,7 +96,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联5" />
+            android:text="aVL"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -110,7 +115,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联6" />
+            android:text="aVF"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -128,7 +134,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联7" />
+            android:text="V1"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -146,7 +153,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联8" />
+            android:text="V2"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -164,7 +172,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联9" />
+            android:text="V3"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -182,7 +191,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联10" />
+            android:text="V4"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/layout11"
@@ -199,7 +209,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联11" />
+            android:text="V5"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/layout12"
@@ -217,7 +228,8 @@
             android:textColor="#008B45"
             android:textSize="15dp"
             android:gravity="center"
-            android:text="导联12" />
+            android:text="V6"
+            android:background="@drawable/btn_seletor"/>
     </LinearLayout>
 
 </LinearLayout>

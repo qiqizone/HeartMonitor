@@ -27,5 +27,8 @@
     <string name="Visible">设置可见</string>
     <string name="List">扫描设备</string>
     <string name="action_settings">Settings</string>
+
+    <drawable name="clr_normal">#454545</drawable>
+    <drawable name="clr_pressed">#a44100</drawable>
     
 </resources>
