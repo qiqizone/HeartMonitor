@@ -742,6 +742,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 
 					}).start();
 					break;
+
 				case Common.MESSAGE_CONNECT_SUCCEED:
 					Log.d("sss","MESSAGE_CONNECT_SUCCEED");
 					tvTitle.setText(strName+"连接成功");
