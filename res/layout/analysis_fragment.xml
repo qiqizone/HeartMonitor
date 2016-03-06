@@ -3,7 +3,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical" 
-    android:background="#cc6633">
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"><![CDATA[>
+        ]]>
+
+        <RelativeLayout
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/open" />
+
+        <Button
+            android:id="@+id/open"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:text="打开"
+            android:textSize="10dp" />
+
+        <Button
+            android:id="@+id/canshu"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/open"
+            android:layout_marginTop="5dp"
+            android:text="参数"
+            android:textSize="10dp" />
+        <Button
+            android:id="@+id/xianshi"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/canshu"
+            android:layout_marginTop="5dp"
+            android:text="显示"
+            android:textSize="10dp" />
+        <Button
+            android:id="@+id/daolian"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/xianshi"
+            android:layout_marginTop="5dp"
+            android:text="导联"
+            android:textSize="10dp" />
+        <Button
+            android:id="@+id/baocun"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/daolian"
+            android:layout_marginTop="5dp"
+            android:text="保存"
+            android:textSize="10dp" />
+        <Button
+            android:id="@+id/open1"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/baocun"
+            android:layout_marginTop="5dp"
+            android:text="打开1"
+            android:textSize="10dp" />
+    </RelativeLayout>
 
 </LinearLayout>

@@ -28,7 +28,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -49,18 +48,11 @@ import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 import java.util.List;
-import java.util.Collections;
-import java.util.Arrays;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.LineChart;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
@@ -98,6 +90,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 	private LinearLayout linearLayout1;
 	private Button btnReturn;
 	public  String filename=""; //用来保存存储的文件名
+	public  String testfilename="test"; //用来保存存储的文件名
 	private String mTempSaveString ="";//临时数据缓存
 	private String mDealString ="";//处理用数据缓存
 	private String mSaveString ="";//保存用数据缓存
@@ -135,7 +128,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 			value75,value85,value95,value105,value115,value125;
 
 
-	private List<Double> EA_list = new ArrayList<Double>();
+	private List<Double> ES_list = new ArrayList<Double>();
 	private List<Double> AS_list = new ArrayList<Double>();
 	private List<Double> AI_list = new ArrayList<Double>();
 
@@ -252,9 +245,9 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
         // 将XYSeries对象和XYSeriesRenderer对象分别添加到XYMultipleSeriesDataset对象和XYMultipleSeriesRenderer对象中
         mDataset.addSeries(line1);
         mXYMultipleSeriesRenderer.addSeriesRenderer(renderer1);
-
+		mXYMultipleSeriesRenderer.setZoomButtonsVisible(true);
         // 配置chart参数
-        setChartSettings(mXYMultipleSeriesRenderer, "X", "Y", 0, 1800, -5, 5, Color.RED,
+        setChartSettings(mXYMultipleSeriesRenderer, "X", "Y", 0, 1800, -0.01, 0.01, Color.RED,
                 Color.WHITE);
 
         // 通过该函数获取到一个View 对象
@@ -375,7 +368,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 			Save();
 			break;
 		case R.id.btn_daoLian:
-			showPopwindow(v);
+			showPopwindow();
 			break;
 		case R.id.btn_paraments:
 			showDialogs();
@@ -468,6 +461,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 		final EditText editText125=(EditText)view.findViewById(R.id.editText125);
 		final EditText editText126=(EditText)view.findViewById(R.id.editText126);
 		final Button btnXishu1 = (Button)view.findViewById(R.id.btn_xishu1);
+		final Button btnXishu2 = (Button)view.findViewById(R.id.btn_xishu2);
 		btnXishu1.setOnClickListener(new View.OnClickListener(){
 			public void onClick(View v){
 				//I导联
@@ -508,7 +502,46 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 				editText124.setText("0.292");editText125.setText("+");editText126.setText("0.377");
 			}
 		});
-
+		btnXishu2.setOnClickListener(new View.OnClickListener(){
+			public void onClick(View v){
+				//I导联
+				editText11.setText("+");editText12.setText("0.026");editText13.setText("-");
+				editText14.setText("0.174");editText15.setText("+");editText16.setText("0.701");
+				//II导联
+				editText21.setText("-");editText22.setText("0.002");editText23.setText("+");
+				editText24.setText("1.098");editText25.setText("-");editText26.setText("0.763");
+				//III导联
+				editText31.setText("-");editText32.setText("0.028");editText33.setText("+");
+				editText34.setText("1.272");editText35.setText("-");editText36.setText("1.464");
+				//aVR导联
+				editText41.setText("-");editText42.setText("0.012");editText43.setText("-");
+				editText44.setText("0.462");editText45.setText("+");editText46.setText("0.031");
+				//aVL导联
+				editText51.setText("+");editText52.setText("0.027");editText53.setText("-");
+				editText54.setText("0.723");editText55.setText("+");editText56.setText("1.082");
+				//aVF导联
+				editText61.setText("-");editText62.setText("0.015");editText63.setText("+");
+				editText64.setText("1.185");editText65.setText("-");editText66.setText("1.114");
+				//V1导联
+				editText71.setText("+");editText72.setText("0.641");editText73.setText("-");
+				editText74.setText("0.391");editText75.setText("+");editText76.setText("0.080");
+				//V2导联
+				editText81.setText("+");editText82.setText("1.229");editText83.setText("-");
+				editText84.setText("1.050");editText85.setText("+");editText86.setText("1.021");
+				//V3导联
+				editText91.setText("+");editText92.setText("0.947");editText93.setText("-");
+				editText94.setText("0.539");editText95.setText("+");editText96.setText("0.987");
+				//V4导联
+				editText101.setText("+");editText102.setText("0.525");editText103.setText("+");
+				editText104.setText("0.004");editText105.setText("+");editText106.setText("0.841");
+				//V5导联
+				editText111.setText("+");editText112.setText("0.179");editText113.setText("+");
+				editText114.setText("0.278");editText115.setText("+");editText116.setText("0.630");
+				//V6导联
+				editText121.setText("-");editText122.setText("0.043");editText123.setText("+");
+				editText124.setText("0.431");editText125.setText("+");editText126.setText("0.213");
+			}
+		});
 		AlertDialog dialog = new AlertDialog.Builder(this)
 				.setTitle("参数设置")
 				.setView(view)
@@ -603,7 +636,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 		dialog.getWindow().setAttributes(params);
 	}
 
-	public void showPopwindow(View v){
+	public void showPopwindow(){
 		//获取导联按钮控件的宽度
 //		int w = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
 //		int h = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
@@ -881,19 +914,74 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 				        double[] y3 =new double[y.length/4];
 				        double[] y4 =new double[y.length/4];
 				        double[] x0 =new double[y.length/4];
-				        for(int i = 0; i < y.length/4 ; i++){
-				        	x0[i]= i;
-				        	y1[i]= y[i*4];  //第一个通道点集E
-				        	y2[i]= y[i*4+1];//第二个通道点集A
-				        	y3[i]= y[i*4+2];//第三个通道点集S
-				        	y4[i]= y[i*4+3];//第四个通道点集I
-				        }
+//						//不去均值
+//						for(int i = 0; i < y.length/4 ; i++){
+//							x0[i]= i;
+//							y1[i]= y[i*4];  //第一个通道点集E
+//							y2[i]= y[i*4+1];//第二个通道点集A
+//							y3[i]= y[i*4+2];//第三个通道点集S
+//							y4[i]= y[i*4+3];//第四个通道点集I
+//						}
+						//*******去均值
+						double[] oldy1 =new double[y.length/4];
+						double[] oldy2 =new double[y.length/4];
+						double[] oldy3 =new double[y.length/4];
+						double[] oldy4 =new double[y.length/4];
+						for(int i = 0; i < y.length/4 ; i++){
+							x0[i]= i;
+							oldy1[i]= y[i*4];  //第一个通道点集E
+							oldy2[i]= y[i*4+1];//第二个通道点集A
+							oldy3[i]= y[i*4+2];//第三个通道点集S
+							oldy4[i]= y[i*4+3];//第四个通道点集I
+						}
+						double sum1 = 0;
+						double sum2 = 0;
+						double sum3 = 0;
+						double sum4 = 0;
+						double junzhi1 = 0;
+						double junzhi2 = 0;
+						double junzhi3 = 0;
+						double junzhi4 = 0;
+						//去除通道1均值
+						for(int i = 0; i < oldy1.length ; i++){
+							sum1 = sum1 + oldy1[i];
+						}
+						junzhi1 = sum1 / oldy1.length;
+						for(int i = 0; i < oldy1.length ; i++){
+							y1[i] = oldy1[i] - junzhi1;
+						}
+						//去除通道2均值
+						for(int i = 0; i < oldy2.length ; i++){
+							sum2 = sum2 + oldy2[i];
+						}
+						junzhi2 = sum2 / oldy2.length;
+						for(int i = 0; i < oldy2.length ; i++){
+							y2[i] = oldy2[i] - junzhi2;
+						}
+						//去除通道3均值
+						for(int i = 0; i < oldy3.length ; i++){
+							sum3 = sum3 + oldy3[i];
+						}
+						junzhi3 = sum3 / oldy3.length;
+						for(int i = 0; i < oldy3.length ; i++){
+							y3[i] = oldy3[i] - junzhi3;
+						}
+						//去除通道4均值
+						for(int i = 0; i < oldy4.length ; i++){
+							sum4 = sum4 + oldy4[i];
+						}
+						junzhi4 = sum4 / oldy4.length;
+						for(int i = 0; i < oldy4.length ; i++){
+							y4[i] = oldy4[i] - junzhi4;
+						}
+						//*******去均值
+
 				        //保存各点集到list
-						EA_list.clear();
+						ES_list.clear();
 						AS_list.clear();
 						AI_list.clear();
 				        for(int i = 0;i < y1.length; i++){
-							EA_list.add(y1[i]-y2[i]);
+							ES_list.add((y1[i]-y3[i]));
 							AS_list.add(y2[i]-y3[i]);
 							AI_list.add(y2[i]-y4[i]);
 				        }
@@ -902,429 +990,442 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 						List<Double> y_list = new ArrayList<Double>();
 						x_list.clear();
 						for(int i=0;i<y1.length;i++){
-								x_list.add(x0[i]);
+							x_list.add(x0[i]);
 				        }
+						Log.d("curDaoLian",curDaoLian+"");
 						switch (curDaoLian){
 							case 1:
 								y_list.clear();
 								if(value11.equals("-") && value13.equals("-") && value15.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value12 * EA_list.get(i) - value14 * AS_list.get(i) - value16 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value12 * ES_list.get(i) - value14 * AS_list.get(i) - value16 * AI_list.get(i));
 									}
 								}else if(value11.equals("-") && value13.equals("-") && value15.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value12 * EA_list.get(i) - value14 * AS_list.get(i) + value16 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value12 * ES_list.get(i) - value14 * AS_list.get(i) + value16 * AI_list.get(i));
 									}
 								}else if(value11.equals("-") && value13.equals("+") && value15.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value12 * EA_list.get(i) + value14 * AS_list.get(i) - value16 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value12 * ES_list.get(i) + value14 * AS_list.get(i) - value16 * AI_list.get(i));
 									}
 								}else if(value11.equals("-") && value13.equals("+") && value15.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value12 * EA_list.get(i) + value14 * AS_list.get(i) + value16 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value12 * ES_list.get(i) + value14 * AS_list.get(i) + value16 * AI_list.get(i));
 									}
 								}else if(value11.equals("+") && value13.equals("-") && value15.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value12 * EA_list.get(i) - value14 * AS_list.get(i) - value16 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value12 * ES_list.get(i) - value14 * AS_list.get(i) - value16 * AI_list.get(i));
 									}
 								}else if(value11.equals("+") && value13.equals("-") && value15.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value12 * EA_list.get(i) - value14 * AS_list.get(i) + value16 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value12 * ES_list.get(i) - value14 * AS_list.get(i) + value16 * AI_list.get(i));
 									}
 								}else if(value11.equals("+") && value13.equals("+") && value15.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value12 * EA_list.get(i) + value14 * AS_list.get(i) - value16 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value12 * ES_list.get(i) + value14 * AS_list.get(i) - value16 * AI_list.get(i));
 									}
 								}else if(value11.equals("+") && value13.equals("+") && value15.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value12 * EA_list.get(i) + value14 * AS_list.get(i) + value16 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value12 * ES_list.get(i) + value14 * AS_list.get(i) + value16 * AI_list.get(i));
 									}
 								}
+								break;
 							case 2:
 								y_list.clear();
 								if(value21.equals("-") && value23.equals("-") && value25.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value22 * EA_list.get(i) - value24 * AS_list.get(i) - value26 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value22 * ES_list.get(i) - value24 * AS_list.get(i) - value26 * AI_list.get(i));
 									}
 								}else if(value21.equals("-") && value23.equals("-") && value25.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value22 * EA_list.get(i) - value24 * AS_list.get(i) + value26 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value22 * ES_list.get(i) - value24 * AS_list.get(i) + value26 * AI_list.get(i));
 									}
 								}else if(value21.equals("-") && value23.equals("+") && value25.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value22 * EA_list.get(i) + value24 * AS_list.get(i) - value26 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value22 * ES_list.get(i) + value24 * AS_list.get(i) - value26 * AI_list.get(i));
 									}
 								}else if(value21.equals("-") && value23.equals("+") && value25.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value22 * EA_list.get(i) + value24 * AS_list.get(i) + value26 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value22 * ES_list.get(i) + value24 * AS_list.get(i) + value26 * AI_list.get(i));
 									}
 								}else if(value21.equals("+") && value23.equals("-") && value25.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value22 * EA_list.get(i) - value24 * AS_list.get(i) - value26 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value22 * ES_list.get(i) - value24 * AS_list.get(i) - value26 * AI_list.get(i));
 									}
 								}else if(value21.equals("+") && value23.equals("-") && value25.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value22 * EA_list.get(i) - value24 * AS_list.get(i) + value26 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value22 * ES_list.get(i) - value24 * AS_list.get(i) + value26 * AI_list.get(i));
 									}
 								}else if(value21.equals("+") && value23.equals("+") && value25.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value22 * EA_list.get(i) + value24 * AS_list.get(i) - value26 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value22 * ES_list.get(i) + value24 * AS_list.get(i) - value26 * AI_list.get(i));
 									}
 								}else if(value21.equals("+") && value23.equals("+") && value25.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value22 * EA_list.get(i) + value24 * AS_list.get(i) + value26 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value22 * ES_list.get(i) + value24 * AS_list.get(i) + value26 * AI_list.get(i));
 									}
 								}
+								break;
 							case 3:
 								y_list.clear();
 								if(value31.equals("-") && value33.equals("-") && value35.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value32 * EA_list.get(i) - value34 * AS_list.get(i) - value36 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value32 * ES_list.get(i) - value34 * AS_list.get(i) - value36 * AI_list.get(i));
 									}
 								}else if(value31.equals("-") && value33.equals("-") && value35.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value32 * EA_list.get(i) - value34 * AS_list.get(i) + value36 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value32 * ES_list.get(i) - value34 * AS_list.get(i) + value36 * AI_list.get(i));
 									}
 								}else if(value31.equals("-") && value33.equals("+") && value35.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value32 * EA_list.get(i) + value34 * AS_list.get(i) - value36 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value32 * ES_list.get(i) + value34 * AS_list.get(i) - value36 * AI_list.get(i));
 									}
 								}else if(value31.equals("-") && value33.equals("+") && value35.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value32 * EA_list.get(i) + value34 * AS_list.get(i) + value36 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value32 * ES_list.get(i) + value34 * AS_list.get(i) + value36 * AI_list.get(i));
 									}
 								}else if(value31.equals("+") && value33.equals("-") && value35.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value32 * EA_list.get(i) - value34 * AS_list.get(i) - value36 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value32 * ES_list.get(i) - value34 * AS_list.get(i) - value36 * AI_list.get(i));
 									}
 								}else if(value31.equals("+") && value33.equals("-") && value35.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value32 * EA_list.get(i) - value34 * AS_list.get(i) + value36 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value32 * ES_list.get(i) - value34 * AS_list.get(i) + value36 * AI_list.get(i));
 									}
 								}else if(value31.equals("+") && value33.equals("+") && value35.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value32 * EA_list.get(i) + value34 * AS_list.get(i) - value36 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value32 * ES_list.get(i) + value34 * AS_list.get(i) - value36 * AI_list.get(i));
 									}
 								}else if(value31.equals("+") && value33.equals("+") && value35.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value32 * EA_list.get(i) + value34 * AS_list.get(i) + value36 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value32 * ES_list.get(i) + value34 * AS_list.get(i) + value36 * AI_list.get(i));
 									}
 								}
+								break;
 							case 4:
 								y_list.clear();
 								if(value41.equals("-") && value43.equals("-") && value45.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value42 * EA_list.get(i) - value44 * AS_list.get(i) - value46 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value42 * ES_list.get(i) - value44 * AS_list.get(i) - value46 * AI_list.get(i));
 									}
 								}else if(value41.equals("-") && value43.equals("-") && value45.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value42 * EA_list.get(i) - value44 * AS_list.get(i) + value46 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value42 * ES_list.get(i) - value44 * AS_list.get(i) + value46 * AI_list.get(i));
 									}
 								}else if(value41.equals("-") && value43.equals("+") && value45.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value42 * EA_list.get(i) + value44 * AS_list.get(i) - value46 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value42 * ES_list.get(i) + value44 * AS_list.get(i) - value46 * AI_list.get(i));
 									}
 								}else if(value41.equals("-") && value43.equals("+") && value45.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value42 * EA_list.get(i) + value44 * AS_list.get(i) + value46 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value42 * ES_list.get(i) + value44 * AS_list.get(i) + value46 * AI_list.get(i));
 									}
 								}else if(value41.equals("+") && value43.equals("-") && value45.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value42 * EA_list.get(i) - value44 * AS_list.get(i) - value46 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value42 * ES_list.get(i) - value44 * AS_list.get(i) - value46 * AI_list.get(i));
 									}
 								}else if(value41.equals("+") && value43.equals("-") && value45.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value42 * EA_list.get(i) - value44 * AS_list.get(i) + value46 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value42 * ES_list.get(i) - value44 * AS_list.get(i) + value46 * AI_list.get(i));
 									}
 								}else if(value41.equals("+") && value43.equals("+") && value45.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value42 * EA_list.get(i) + value44 * AS_list.get(i) - value46 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value42 * ES_list.get(i) + value44 * AS_list.get(i) - value46 * AI_list.get(i));
 									}
 								}else if(value41.equals("+") && value43.equals("+") && value45.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value42 * EA_list.get(i) + value44 * AS_list.get(i) + value46 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value42 * ES_list.get(i) + value44 * AS_list.get(i) + value46 * AI_list.get(i));
 									}
 								}
+								break;
 							case 5:
 								y_list.clear();
 								if(value51.equals("-") && value53.equals("-") && value55.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value52 * EA_list.get(i) - value54 * AS_list.get(i) - value56 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value52 * ES_list.get(i) - value54 * AS_list.get(i) - value56 * AI_list.get(i));
 									}
 								}else if(value51.equals("-") && value53.equals("-") && value55.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value52 * EA_list.get(i) - value54 * AS_list.get(i) + value56 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value52 * ES_list.get(i) - value54 * AS_list.get(i) + value56 * AI_list.get(i));
 									}
 								}else if(value51.equals("-") && value53.equals("+") && value55.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value52 * EA_list.get(i) + value54 * AS_list.get(i) - value56 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value52 * ES_list.get(i) + value54 * AS_list.get(i) - value56 * AI_list.get(i));
 									}
 								}else if(value51.equals("-") && value53.equals("+") && value55.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value52 * EA_list.get(i) + value54 * AS_list.get(i) + value56 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value52 * ES_list.get(i) + value54 * AS_list.get(i) + value56 * AI_list.get(i));
 									}
 								}else if(value51.equals("+") && value53.equals("-") && value55.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value52 * EA_list.get(i) - value54 * AS_list.get(i) - value56 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value52 * ES_list.get(i) - value54 * AS_list.get(i) - value56 * AI_list.get(i));
 									}
 								}else if(value51.equals("+") && value53.equals("-") && value55.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value52 * EA_list.get(i) - value54 * AS_list.get(i) + value56 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value52 * ES_list.get(i) - value54 * AS_list.get(i) + value56 * AI_list.get(i));
 									}
 								}else if(value51.equals("+") && value53.equals("+") && value55.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value52 * EA_list.get(i) + value54 * AS_list.get(i) - value56 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value52 * ES_list.get(i) + value54 * AS_list.get(i) - value56 * AI_list.get(i));
 									}
 								}else if(value51.equals("+") && value53.equals("+") && value55.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value52 * EA_list.get(i) + value54 * AS_list.get(i) + value56 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value52 * ES_list.get(i) + value54 * AS_list.get(i) + value56 * AI_list.get(i));
 									}
 								}
+								break;
 							case 6:
 								y_list.clear();
 								if(value61.equals("-") && value63.equals("-") && value65.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value62 * EA_list.get(i) - value64 * AS_list.get(i) - value66 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value62 * ES_list.get(i) - value64 * AS_list.get(i) - value66 * AI_list.get(i));
 									}
 								}else if(value61.equals("-") && value63.equals("-") && value65.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value62 * EA_list.get(i) - value64 * AS_list.get(i) + value66 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value62 * ES_list.get(i) - value64 * AS_list.get(i) + value66 * AI_list.get(i));
 									}
 								}else if(value61.equals("-") && value63.equals("+") && value65.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value62 * EA_list.get(i) + value64 * AS_list.get(i) - value66 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value62 * ES_list.get(i) + value64 * AS_list.get(i) - value66 * AI_list.get(i));
 									}
 								}else if(value61.equals("-") && value63.equals("+") && value65.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value62 * EA_list.get(i) + value64 * AS_list.get(i) + value66 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value62 * ES_list.get(i) + value64 * AS_list.get(i) + value66 * AI_list.get(i));
 									}
 								}else if(value61.equals("+") && value63.equals("-") && value65.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value62 * EA_list.get(i) - value64 * AS_list.get(i) - value66 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value62 * ES_list.get(i) - value64 * AS_list.get(i) - value66 * AI_list.get(i));
 									}
 								}else if(value61.equals("+") && value63.equals("-") && value65.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value62 * EA_list.get(i) - value64 * AS_list.get(i) + value66 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value62 * ES_list.get(i) - value64 * AS_list.get(i) + value66 * AI_list.get(i));
 									}
 								}else if(value61.equals("+") && value63.equals("+") && value65.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value62 * EA_list.get(i) + value64 * AS_list.get(i) - value66 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value62 * ES_list.get(i) + value64 * AS_list.get(i) - value66 * AI_list.get(i));
 									}
 								}else if(value61.equals("+") && value63.equals("+") && value65.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value62 * EA_list.get(i) + value64 * AS_list.get(i) + value66 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value62 * ES_list.get(i) + value64 * AS_list.get(i) + value66 * AI_list.get(i));
 									}
 								}
+								break;
 							case 7:
 								y_list.clear();
 								if(value71.equals("-") && value73.equals("-") && value75.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value72 * EA_list.get(i) - value74 * AS_list.get(i) - value76 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value72 * ES_list.get(i) - value74 * AS_list.get(i) - value76 * AI_list.get(i));
 									}
 								}else if(value71.equals("-") && value73.equals("-") && value75.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value72 * EA_list.get(i) - value74 * AS_list.get(i) + value76 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value72 * ES_list.get(i) - value74 * AS_list.get(i) + value76 * AI_list.get(i));
 									}
 								}else if(value71.equals("-") && value73.equals("+") && value75.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value72 * EA_list.get(i) + value74 * AS_list.get(i) - value76 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value72 * ES_list.get(i) + value74 * AS_list.get(i) - value76 * AI_list.get(i));
 									}
 								}else if(value71.equals("-") && value73.equals("+") && value75.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value72 * EA_list.get(i) + value74 * AS_list.get(i) + value76 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value72 * ES_list.get(i) + value74 * AS_list.get(i) + value76 * AI_list.get(i));
 									}
 								}else if(value71.equals("+") && value73.equals("-") && value75.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value72 * EA_list.get(i) - value74 * AS_list.get(i) - value76 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value72 * ES_list.get(i) - value74 * AS_list.get(i) - value76 * AI_list.get(i));
 									}
 								}else if(value71.equals("+") && value73.equals("-") && value75.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value72 * EA_list.get(i) - value74 * AS_list.get(i) + value76 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value72 * ES_list.get(i) - value74 * AS_list.get(i) + value76 * AI_list.get(i));
 									}
 								}else if(value71.equals("+") && value73.equals("+") && value75.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value72 * EA_list.get(i) + value74 * AS_list.get(i) - value76 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value72 * ES_list.get(i) + value74 * AS_list.get(i) - value76 * AI_list.get(i));
 									}
 								}else if(value71.equals("+") && value73.equals("+") && value75.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value72 * EA_list.get(i) + value74 * AS_list.get(i) + value76 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value72 * ES_list.get(i) + value74 * AS_list.get(i) + value76 * AI_list.get(i));
 									}
 								}
+								break;
 							case 8:
 								y_list.clear();
 								if(value81.equals("-") && value83.equals("-") && value85.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value82 * EA_list.get(i) - value84 * AS_list.get(i) - value86 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value82 * ES_list.get(i) - value84 * AS_list.get(i) - value86 * AI_list.get(i));
 									}
 								}else if(value81.equals("-") && value83.equals("-") && value85.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value82 * EA_list.get(i) - value84 * AS_list.get(i) + value86 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value82 * ES_list.get(i) - value84 * AS_list.get(i) + value86 * AI_list.get(i));
 									}
 								}else if(value81.equals("-") && value83.equals("+") && value85.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value82 * EA_list.get(i) + value84 * AS_list.get(i) - value86 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value82 * ES_list.get(i) + value84 * AS_list.get(i) - value86 * AI_list.get(i));
 									}
 								}else if(value81.equals("-") && value83.equals("+") && value85.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value82 * EA_list.get(i) + value84 * AS_list.get(i) + value86 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value82 * ES_list.get(i) + value84 * AS_list.get(i) + value86 * AI_list.get(i));
 									}
 								}else if(value81.equals("+") && value83.equals("-") && value85.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value82 * EA_list.get(i) - value84 * AS_list.get(i) - value86 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value82 * ES_list.get(i) - value84 * AS_list.get(i) - value86 * AI_list.get(i));
 									}
 								}else if(value81.equals("+") && value83.equals("-") && value85.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value82 * EA_list.get(i) - value84 * AS_list.get(i) + value86 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value82 * ES_list.get(i) - value84 * AS_list.get(i) + value86 * AI_list.get(i));
 									}
 								}else if(value81.equals("+") && value83.equals("+") && value85.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value82 * EA_list.get(i) + value84 * AS_list.get(i) - value86 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value82 * ES_list.get(i) + value84 * AS_list.get(i) - value86 * AI_list.get(i));
 									}
 								}else if(value81.equals("+") && value83.equals("+") && value85.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value82 * EA_list.get(i) + value84 * AS_list.get(i) + value86 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value82 * ES_list.get(i) + value84 * AS_list.get(i) + value86 * AI_list.get(i));
 									}
 								}
+								break;
 							case 9:
 								y_list.clear();
 								if(value91.equals("-") && value93.equals("-") && value95.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value92 * EA_list.get(i) - value94 * AS_list.get(i) - value96 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value92 * ES_list.get(i) - value94 * AS_list.get(i) - value96 * AI_list.get(i));
 									}
 								}else if(value91.equals("-") && value93.equals("-") && value95.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value92 * EA_list.get(i) - value94 * AS_list.get(i) + value96 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value92 * ES_list.get(i) - value94 * AS_list.get(i) + value96 * AI_list.get(i));
 									}
 								}else if(value91.equals("-") && value93.equals("+") && value95.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value92 * EA_list.get(i) + value94 * AS_list.get(i) - value96 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value92 * ES_list.get(i) + value94 * AS_list.get(i) - value96 * AI_list.get(i));
 									}
 								}else if(value91.equals("-") && value93.equals("+") && value95.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value92 * EA_list.get(i) + value94 * AS_list.get(i) + value96 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value92 * ES_list.get(i) + value94 * AS_list.get(i) + value96 * AI_list.get(i));
 									}
 								}else if(value91.equals("+") && value93.equals("-") && value95.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value92 * EA_list.get(i) - value94 * AS_list.get(i) - value96 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value92 * ES_list.get(i) - value94 * AS_list.get(i) - value96 * AI_list.get(i));
 									}
 								}else if(value91.equals("+") && value93.equals("-") && value95.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value92 * EA_list.get(i) - value94 * AS_list.get(i) + value96 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value92 * ES_list.get(i) - value94 * AS_list.get(i) + value96 * AI_list.get(i));
 									}
 								}else if(value91.equals("+") && value93.equals("+") && value95.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value92 * EA_list.get(i) + value94 * AS_list.get(i) - value96 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value92 * ES_list.get(i) + value94 * AS_list.get(i) - value96 * AI_list.get(i));
 									}
 								}else if(value91.equals("+") && value93.equals("+") && value95.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value92 * EA_list.get(i) + value94 * AS_list.get(i) + value96 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value92 * ES_list.get(i) + value94 * AS_list.get(i) + value96 * AI_list.get(i));
 									}
 								}
+								break;
 							case 10:
 								y_list.clear();
 								if(value101.equals("-") && value103.equals("-") && value105.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value102 * EA_list.get(i) - value104 * AS_list.get(i) - value106 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value102 * ES_list.get(i) - value104 * AS_list.get(i) - value106 * AI_list.get(i));
 									}
 								}else if(value101.equals("-") && value103.equals("-") && value105.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value102 * EA_list.get(i) - value104 * AS_list.get(i) + value106 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value102 * ES_list.get(i) - value104 * AS_list.get(i) + value106 * AI_list.get(i));
 									}
 								}else if(value101.equals("-") && value103.equals("+") && value105.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value102 * EA_list.get(i) + value104 * AS_list.get(i) - value106 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value102 * ES_list.get(i) + value104 * AS_list.get(i) - value106 * AI_list.get(i));
 									}
 								}else if(value101.equals("-") && value103.equals("+") && value105.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value102 * EA_list.get(i) + value104 * AS_list.get(i) + value106 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value102 * ES_list.get(i) + value104 * AS_list.get(i) + value106 * AI_list.get(i));
 									}
 								}else if(value101.equals("+") && value103.equals("-") && value105.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value102 * EA_list.get(i) - value104 * AS_list.get(i) - value106 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value102 * ES_list.get(i) - value104 * AS_list.get(i) - value106 * AI_list.get(i));
 									}
 								}else if(value101.equals("+") && value103.equals("-") && value105.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value102 * EA_list.get(i) - value104 * AS_list.get(i) + value106 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value102 * ES_list.get(i) - value104 * AS_list.get(i) + value106 * AI_list.get(i));
 									}
 								}else if(value101.equals("+") && value103.equals("+") && value105.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value102 * EA_list.get(i) + value104 * AS_list.get(i) - value106 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value102 * ES_list.get(i) + value104 * AS_list.get(i) - value106 * AI_list.get(i));
 									}
 								}else if(value101.equals("+") && value103.equals("+") && value105.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value102 * EA_list.get(i) + value104 * AS_list.get(i) + value106 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value102 * ES_list.get(i) + value104 * AS_list.get(i) + value106 * AI_list.get(i));
 									}
 								}
+								break;
 							case 11:
 								y_list.clear();
 								if(value111.equals("-") && value113.equals("-") && value115.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value112 * EA_list.get(i) - value114 * AS_list.get(i) - value116 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value112 * ES_list.get(i) - value114 * AS_list.get(i) - value116 * AI_list.get(i));
 									}
 								}else if(value111.equals("-") && value113.equals("-") && value115.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value112 * EA_list.get(i) - value114 * AS_list.get(i) + value116 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value112 * ES_list.get(i) - value114 * AS_list.get(i) + value116 * AI_list.get(i));
 									}
 								}else if(value111.equals("-") && value113.equals("+") && value115.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value112 * EA_list.get(i) + value114 * AS_list.get(i) - value116 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value112 * ES_list.get(i) + value114 * AS_list.get(i) - value116 * AI_list.get(i));
 									}
 								}else if(value111.equals("-") && value113.equals("+") && value115.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value112 * EA_list.get(i) + value114 * AS_list.get(i) + value116 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value112 * ES_list.get(i) + value114 * AS_list.get(i) + value116 * AI_list.get(i));
 									}
 								}else if(value111.equals("+") && value113.equals("-") && value115.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value112 * EA_list.get(i) - value114 * AS_list.get(i) - value116 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value112 * ES_list.get(i) - value114 * AS_list.get(i) - value116 * AI_list.get(i));
 									}
 								}else if(value111.equals("+") && value113.equals("-") && value115.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value112 * EA_list.get(i) - value114 * AS_list.get(i) + value116 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value112 * ES_list.get(i) - value114 * AS_list.get(i) + value116 * AI_list.get(i));
 									}
 								}else if(value111.equals("+") && value113.equals("+") && value115.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value112 * EA_list.get(i) + value114 * AS_list.get(i) - value116 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value112 * ES_list.get(i) + value114 * AS_list.get(i) - value116 * AI_list.get(i));
 									}
 								}else if(value111.equals("+") && value113.equals("+") && value115.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value112 * EA_list.get(i) + value114 * AS_list.get(i) + value116 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value112 * ES_list.get(i) + value114 * AS_list.get(i) + value116 * AI_list.get(i));
 									}
 								}
+								break;
 							case 12:
 								y_list.clear();
 								if(value121.equals("-") && value123.equals("-") && value125.equals("-")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value122 * EA_list.get(i) - value124 * AS_list.get(i) - value126 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value122 * ES_list.get(i) - value124 * AS_list.get(i) - value126 * AI_list.get(i));
 									}
 								}else if(value121.equals("-") && value123.equals("-") && value125.equals("+")){
-									for(int i= 0;i < EA_list.size(); i++){
-										y_list.add(- value122 * EA_list.get(i) - value124 * AS_list.get(i) + value126 * AI_list.get(i));
+									for(int i= 0;i < ES_list.size(); i++){
+										y_list.add(- value122 * ES_list.get(i) - value124 * AS_list.get(i) + value126 * AI_list.get(i));
 									}
 								}else if(value121.equals("-") && value123.equals("+") && value125.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value122 * EA_list.get(i) + value124 * AS_list.get(i) - value126 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value122 * ES_list.get(i) + value124 * AS_list.get(i) - value126 * AI_list.get(i));
 									}
 								}else if(value121.equals("-") && value123.equals("+") && value125.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(-value122 * EA_list.get(i) + value124 * AS_list.get(i) + value126 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(-value122 * ES_list.get(i) + value124 * AS_list.get(i) + value126 * AI_list.get(i));
 									}
 								}else if(value121.equals("+") && value123.equals("-") && value125.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value122 * EA_list.get(i) - value124 * AS_list.get(i) - value126 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value122 * ES_list.get(i) - value124 * AS_list.get(i) - value126 * AI_list.get(i));
 									}
 								}else if(value121.equals("+") && value123.equals("-") && value125.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value122 * EA_list.get(i) - value124 * AS_list.get(i) + value126 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value122 * ES_list.get(i) - value124 * AS_list.get(i) + value126 * AI_list.get(i));
 									}
 								}else if(value121.equals("+") && value123.equals("+") && value125.equals("-")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value122 * EA_list.get(i) + value124 * AS_list.get(i) - value126 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value122 * ES_list.get(i) + value124 * AS_list.get(i) - value126 * AI_list.get(i));
 									}
 								}else if(value121.equals("+") && value123.equals("+") && value125.equals("+")) {
-									for (int i = 0; i < EA_list.size(); i++) {
-										y_list.add(value122 * EA_list.get(i) + value124 * AS_list.get(i) + value126 * AI_list.get(i));
+									for (int i = 0; i < ES_list.size(); i++) {
+										y_list.add(value122 * ES_list.get(i) + value124 * AS_list.get(i) + value126 * AI_list.get(i));
 									}
 								}
+								break;
 						}
 						Log.d("ss-y_list",y_list.size()+"");
 						Log.d("ss-x_list",x_list.size()+"");
@@ -1493,9 +1594,9 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 														stream.close();
 														Toast.makeText(LineChartActivity1.this, "存储成功！", Toast.LENGTH_SHORT).show();
 													}
-												}else{
-													Toast.makeText(LineChartActivity1.this, "没有存储卡！", Toast.LENGTH_LONG).show();
-												}
+													}else{
+														Toast.makeText(LineChartActivity1.this, "没有存储卡！", Toast.LENGTH_LONG).show();
+													}
 											
 											}catch(IOException e){
 												e.printStackTrace();
@@ -1509,5 +1610,32 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 										}
 									}).show();  //显示对话框
 		}
+	//保存功能实现
+	private void SaveTest() {
+		//显示对话框输入文件名
+								try{
+									if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){  //如果SD卡已准备好
+
+										testfilename =testfilename+".txt";   //在文件名末尾加上.txt
+//													fileNum++;
+										File sdCardDir = Environment.getExternalStorageDirectory();  //得到SD卡根目录
+										File BuildDir = new File(sdCardDir, "/data");   //打开data目录，如不存在则生成
+										if(BuildDir.exists()==false)BuildDir.mkdirs();
+										File saveFile =new File(BuildDir, testfilename);  //新建文件句柄，如已存在仍新建文档
+										FileOutputStream stream = new FileOutputStream(saveFile);  //打开文件输入流
+										if(mSaveString != null){
+											stream.write(mSaveString.getBytes());
+											stream.close();
+											Toast.makeText(LineChartActivity1.this, "存储成功！", Toast.LENGTH_SHORT).show();
+										}
+									}else{
+										Toast.makeText(LineChartActivity1.this, "没有存储卡！", Toast.LENGTH_LONG).show();
+									}
+
+								}catch(IOException e){
+									e.printStackTrace();
+									return;
+								}
+							}
 
 }
