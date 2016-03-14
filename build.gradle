@@ -9,7 +9,10 @@ buildscript {
 apply plugin: 'android'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile fileTree(include: '*.jar', dir: 'libs')
+    compile files('libs/bandpass_butter.jar')
+    compile files('libs/lvsf.jar')
+    compile files('libs/lbsf.jar')
 }
 
 android {

@@ -79,8 +79,9 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 	private List<Double> AI_list = new ArrayList<Double>();
 	private List<Double> x_list = new ArrayList<Double>();
 	private List<Double> y_list = new ArrayList<Double>();
-	private List<Double> newY_list = new ArrayList<Double>();
+
 	private List<Double> newData_list = new ArrayList<Double>();
+	private List<Double> newY_list = new ArrayList<Double>();
 	DataFilter dataFilter = new DataFilter();
 	private String//参数设置
 			value11,value21,value31,value41,value51,value61,
@@ -104,6 +105,24 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 			value112,value114,value116,
 			value122,value124,value126;
 
+	/**
+	 * 滤波系数
+	 */
+	public static double[] coefb = new double[] {
+			0.067341990079247, 4.485877674603527e-17,
+			-0.134683980158494, -1.495292558201176e-17,
+			0.067341990079247};
+	public static double[] coefa = new double[] {
+			1,-3.143150780789496,3.699701744353724,
+			-1.969711347520458,0.413160490504384};
+
+	public static double[] coef1b = new double[] {
+			0.837089190566345,-2.73040760338891,
+			3.90068117338596,-2.73040760338891,
+			0.837089190566346};
+	public static double[] coef1a = new double[] {
+			1,-2.97431043717439,3.87396277333025,
+			-2.48650476960344,0.700896781188405};
 
 	@Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -162,7 +181,7 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 		mXYMultipleSeriesRenderer.setZoomButtonsVisible(true);
 
 		// 配置chart参数
-		setChartSettings(mXYMultipleSeriesRenderer, "X", "Y", 0, 1800, -0.01, 0.01, Color.RED,
+		setChartSettings(mXYMultipleSeriesRenderer, "X", "Y", -150, 1600, -0.01, 0.01, Color.RED,
 				Color.WHITE);
 
 		// 通过该函数获取到一个View 对象
@@ -805,12 +824,98 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 //				double mid=sortList.get(sortList.size()/2);
 //				newY_list.add((y_list.get(i)-mid));
 //			}
-			Log.d("ss-y_list",y_list.size()+"");
-			Log.d("ss-x_list",x_list.size()+"");
-			updateChart(x_list, y_list, line1);
+			//带通加陷波
+			newY_list.clear();
+			newY_list = lvbo(y_list);
+			updateChart(x_list, newY_list, line1);
 		}
 	}
 
+	/**
+	 * 滤波函数
+	 * @param inPut
+	 * @return  out
+	 */
+
+	public List<Double> lvbo(List<Double> inPut){
+		double[] xi = new double[inPut.size()];
+		List<Double> out = new ArrayList<Double>();
+		for(int i=0; i<inPut.size();i++){
+			xi[i]= inPut.get(i);
+		}
+		double[] yo1 = new double[xi.length];
+		double[] yo2 = new double[xi.length];
+
+		//0.05-50Hz带通滤波
+		try {
+			Filtering(yo1, coefb,coefb.length,coefa,coefa.length, xi, xi.length);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		//50Hz陷波
+		try {
+			Filtering(yo2, coef1b,coef1b.length,coef1a,coef1a.length, yo1, yo1.length);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		out.clear();
+		for(int i=0; i < yo2.length;i++){
+			out.add(yo2[i]);
+		}
+
+		return out;
+	}
+	/**
+	 * 滤波运算
+	 *
+	 * @param y
+	 * @param b
+	 * @param lenB
+	 * @param a
+	 * @param lenA
+	 * @param x
+	 * @param lenX
+	 * @throws Exception
+	 */
+	public void Filtering(double y[], double b[], int lenB, double a[],
+								 int lenA, final double x[], int lenX) throws Exception {
+		int i, j;
+
+		if (a[0] == 0) {
+			throw new Exception("a[0] cannot be zero!");
+		}
+		// 滤波运算其实就是卷积运算，卷积运算就是移位乘加
+		if (a[0] != 1) {
+			for (i = 1; i != lenA; i++)
+				a[i] /= a[0];
+			for (i = 0; i != lenB; i++)
+				b[i] /= a[0];
+			a[0] = 1;
+		}
+		int na = lenA - 1, nb = lenB - 1;
+		int len = na > nb ? na : nb;
+		y[0] = b[0] * x[0];
+		for (i = 1; i <lenX; i++) {
+			y[i] = 0;
+			for (j = 0; j <= nb; j++) {
+				if (i - j < 0)
+					break;
+				y[i] += b[j] * x[i - j];
+			}
+			for (j = 1; j <= na; j++) {
+				if (i - j < 0)
+					break;
+				y[i] -= a[j] * y[i - j];
+			}
+		}
+//		// 十万分位四舍五入
+//		for (i = 0; i < y.length; i++) {
+//			y[i] = (double) (Math.round(y[i] * 10000)) / 10000;
+//		}
+		return;
+	}
 	public void showPopwindow(){
 		//获取导联按钮控件的宽度
 //		int w = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);

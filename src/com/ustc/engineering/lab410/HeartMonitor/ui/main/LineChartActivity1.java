@@ -247,7 +247,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
         mXYMultipleSeriesRenderer.addSeriesRenderer(renderer1);
 		mXYMultipleSeriesRenderer.setZoomButtonsVisible(true);
         // 配置chart参数
-        setChartSettings(mXYMultipleSeriesRenderer, "X", "Y", 0, 1800, -0.01, 0.01, Color.RED,
+        setChartSettings(mXYMultipleSeriesRenderer, "X", "Y", -150, 1600, -0.01, 0.01, Color.RED,
                 Color.WHITE);
 
         // 通过该函数获取到一个View 对象
@@ -1490,7 +1490,7 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 		/**
 		 * Convert byte[] to hex string.这里我们可以将byte转换成int，然后利用Integer.toHexString(int)
 		 * 来转换成16进制字符串
-		 * @param src byte[] data  
+		 * @param src byte[] data
 		 * @return hex string  
 		 */ 
 		public static String bytesToHexString(byte[] src){  
