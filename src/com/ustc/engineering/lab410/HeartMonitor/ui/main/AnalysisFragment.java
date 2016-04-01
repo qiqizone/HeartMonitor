@@ -12,6 +12,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.achartengine.ChartFactory;
@@ -48,6 +51,7 @@ import java.util.List;
 
 public class AnalysisFragment extends Fragment implements View.OnClickListener {
 
+
 	private View mRootView = null;
 	private Button btnOpen;
 	private Button btnCanShu;
@@ -55,6 +59,7 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 	private Button btnDaoLian;
 	private Button btnBaoCun;
 	private Button btnOpen1;
+	private TextView txtHeartRate;
 	private RelativeLayout dynamic_chart_line_layout;
 	private PopWindow popWinShare;
 	// 用于存放每条折线的点数据
@@ -82,7 +87,8 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 
 	private List<Double> newData_list = new ArrayList<Double>();
 	private List<Double> newY_list = new ArrayList<Double>();
-	DataFilter dataFilter = new DataFilter();
+
+
 	private String//参数设置
 			value11,value21,value31,value41,value51,value61,
 			value71,value81,value91,value101,value111,value121,
@@ -117,13 +123,15 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 			-1.969711347520458,0.413160490504384};
 
 	public static double[] coef1b = new double[] {
-			0.837089190566345,-2.73040760338891,
-			3.90068117338596,-2.73040760338891,
-			0.837089190566346};
+			0.887839755524807,-1.44797259742166,0.887839755524807};
 	public static double[] coef1a = new double[] {
-			1,-2.97431043717439,3.87396277333025,
-			-2.48650476960344,0.700896781188405};
+			1,-1.44797259742166,0.775679511049613};
 
+	//心率计算
+	// We need some initial data...
+	private static double THRESHOLD_PARAM = 8;
+	private static double FILTER_PARAMETER = 16;
+	private static int SAMPLE_RATE = 500;
 	@Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	      Bundle savedInstanceState) {
@@ -145,6 +153,7 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 	private void initView(){
 		dynamic_chart_line_layout = (RelativeLayout) mRootView.findViewById(R.id.chart);
 
+		txtHeartRate = (TextView) mRootView.findViewById(R.id.heartRate);
 		btnOpen = (Button) mRootView.findViewById(R.id.open);
 		btnCanShu = (Button) mRootView.findViewById(R.id.canshu);
 		btnXianShi = (Button) mRootView.findViewById(R.id.xianshi);
@@ -270,6 +279,7 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 				break;
 		}
 	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(FILE_RESULT_CODE == requestCode){
@@ -375,6 +385,7 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 			}
 		}
 	}
+
 
 	public  void xianshi(){
 		if( y == null || y.length == 0){
@@ -823,12 +834,127 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 //				Collections.sort(sortList);
 //				double mid=sortList.get(sortList.size()/2);
 //				newY_list.add((y_list.get(i)-mid));
-//			}
+//			}计算计算
 			//带通加陷波
 			newY_list.clear();
 			newY_list = lvbo(y_list);
+			//刷新显示
 			updateChart(x_list, newY_list, line1);
+			//R波检测与心率计算
+			double[] yo = new double[newY_list.size()];
+			for(int i=0; i < newY_list.size();i++){
+				yo[i]= newY_list.get(i);
+			}
+			int[] R_pos = SoAndChan(yo);
+			int average = 0;
+			int heartRate = 0 ;
+			for(int i=0; i < R_pos.length-1;i++){
+				average += R_pos[i+1] - R_pos[i];
+			}
+			average = (int) (average/(R_pos.length-1));
+			heartRate = (int) (60/(average*0.002));
+			txtHeartRate.setText("心率："+heartRate);
 		}
+	}
+
+	public static int[] SoAndChan(double[] voltages)
+	{
+
+		// initial maxi should be the max slope of the first 250 points.
+		double initial_maxi = -2 * voltages[0] - voltages[1] + voltages[3] + 2 * voltages[4];
+		for (int i = 2; i < SAMPLE_RATE; i++)
+		{
+			double slope = -2 * voltages[i - 2] - voltages[i - 1] + voltages[i + 1] + 2 * voltages[i + 2];
+			if (slope > initial_maxi)
+				initial_maxi = slope;
+		}
+
+		// Since we don't know how many R peaks we'll have, we'll use an ArrayList
+		List<Integer> rTime = new ArrayList<Integer>();
+		List<Integer> new_results = new ArrayList<Integer>();
+		// set initial maxi
+		double maxi = initial_maxi;
+		boolean first_satisfy = false;
+		boolean second_satisfy = false;
+		boolean data_choose = false;
+		int onset_point = 0;
+		int R_point = 0;
+		boolean rFound = false;
+		// I want a way to plot all the r dots that are found...
+		int[] rExist = new int[voltages.length];
+		// First two voltages should be ignored because we need rom length
+		for (int i = 2; i < voltages.length - 2; i++)
+		{
+
+			// Last two voltages should be ignored too
+			if (!first_satisfy || !second_satisfy)
+			{
+				// Get Slope:
+				double slope = -2 * voltages[i - 2] - voltages[i - 1] + voltages[i + 1] + 2 * voltages[i + 2];
+
+				// Get slope threshold
+				double slope_threshold = (THRESHOLD_PARAM / 32) * maxi;
+
+				// We need two consecutive datas that satisfy slope > slope_threshold
+				if ( slope > slope_threshold)
+				{
+					if (!first_satisfy)
+					{
+						first_satisfy = true;
+						onset_point = i;
+					}
+					else
+					{
+						if (!second_satisfy)
+						{
+							second_satisfy = true;
+						}
+					}
+				}
+			}
+			// We found the ONSET already, now we find the R point
+			else
+			{
+
+				if (voltages[i] < voltages[i - 1])
+				{
+					rTime.add(i - 1);
+					R_point = i - 1;
+
+					// Since we have the R, we should reset
+					first_satisfy = false;
+					second_satisfy = false;
+
+					// and update maxi
+					double first_maxi = voltages[R_point] - voltages[onset_point];
+					maxi = ((first_maxi - maxi) / FILTER_PARAMETER) + maxi;
+				}
+			}
+		}
+
+		new_results.clear();
+		for(int i=0; i < rTime.size();i++){
+			new_results.add(rTime.get(i));
+		}
+		//数据整理
+		for(int i=0; i < new_results.size()-1;i++){
+			if (new_results.get(i+1)-new_results.get(i) <100){
+				new_results.remove(i+1);
+			}
+		}
+
+//		for(int j = 0; j< rTime.size();j++){
+//			System.out.println(rTime.get(j)+"...");
+//		}
+//		for(int j = 0; j< new_results.size();j++){
+//			System.out.println(new_results.get(j)+"<<<");
+//		}
+
+		int[] R_Pos = new int[new_results.size()];
+		for(int i=0; i < new_results.size();i++){
+			R_Pos[i]= new_results.get(i);
+		}
+		return R_Pos;
 	}
 
 	/**
@@ -916,6 +1042,7 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 //		}
 		return;
 	}
+
 	public void showPopwindow(){
 		//获取导联按钮控件的宽度
 //		int w = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
@@ -1293,8 +1420,11 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 	 * @param s
 	 * return double[]
 	 */
-	private static double[] stringSplitAndDataToFloats(String s)
+	private double[] stringSplitAndDataToFloats(String s)
 	{
+		if(!s.contains("c00000")){
+			Toast.makeText(getActivity().getApplicationContext(), "数据格式错误", Toast.LENGTH_SHORT).show();
+		}
 		String[] a = s.split("c00000"); //分隔标识符
 		StringBuffer b = new StringBuffer();
 //		        System.out.println(a.length);

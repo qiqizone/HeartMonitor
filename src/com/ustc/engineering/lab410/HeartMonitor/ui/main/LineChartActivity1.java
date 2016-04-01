@@ -126,11 +126,26 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 			value73,value83,value93,value103,value113,value123,
 			value15,value25,value35,value45,value55,value65,
 			value75,value85,value95,value105,value115,value125;
+	/**
+	 * 滤波系数
+	 */
+	public static double[] coefb = new double[] {
+			0.067341990079247, 4.485877674603527e-17,
+			-0.134683980158494, -1.495292558201176e-17,
+			0.067341990079247};
+	public static double[] coefa = new double[] {
+			1,-3.143150780789496,3.699701744353724,
+			-1.969711347520458,0.413160490504384};
 
+	public static double[] coef1b = new double[] {
+			0.887839755524807,-1.44797259742166,0.887839755524807};
+	public static double[] coef1a = new double[] {
+			1,-1.44797259742166,0.775679511049613};
 
 	private List<Double> ES_list = new ArrayList<Double>();
 	private List<Double> AS_list = new ArrayList<Double>();
 	private List<Double> AI_list = new ArrayList<Double>();
+	private List<Double> newY_list = new ArrayList<Double>();
 
     ArrayList<String> xVals = new ArrayList<String>();
 //    ArrayList<Entry> yVals = new ArrayList<Entry>();
@@ -1429,7 +1444,10 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 						}
 						Log.d("ss-y_list",y_list.size()+"");
 						Log.d("ss-x_list",x_list.size()+"");
-						updateChart(x_list, y_list, line1);
+						//滤波
+						newY_list.clear();
+						newY_list = lvbo(y_list);
+						updateChart(x_list, newY_list, line1);
 					}
 					Log.d("sss","MESSAGE_RECV_END");
 					//添加数据到图表
@@ -1453,22 +1471,109 @@ public class LineChartActivity1 extends DemoBase implements OnClickListener{
 				}
 			}
 		};
-		
+
+	/**
+	 * 滤波函数
+	 * @param inPut
+	 * @return  out
+	 */
+
+	public List<Double> lvbo(List<Double> inPut){
+		double[] xi = new double[inPut.size()];
+		List<Double> out = new ArrayList<Double>();
+		for(int i=0; i<inPut.size();i++){
+			xi[i]= inPut.get(i);
+		}
+		double[] yo1 = new double[xi.length];
+		double[] yo2 = new double[xi.length];
+
+		//0.05-50Hz 4阶带通滤波
+		try {
+			Filtering(yo1, coefb,coefb.length,coefa,coefa.length, xi, xi.length);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		//50Hz 4阶陷波
+		try {
+			Filtering(yo2, coef1b,coef1b.length,coef1a,coef1a.length, yo1, yo1.length);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		out.clear();
+		for(int i=0; i < yo2.length;i++){
+			out.add(yo2[i]);
+		}
+
+		return out;
+	}
+	/**
+	 * 滤波运算
+	 *
+	 * @param y
+	 * @param b
+	 * @param lenB
+	 * @param a
+	 * @param lenA
+	 * @param x
+	 * @param lenX
+	 * @throws Exception
+	 */
+	public void Filtering(double y[], double b[], int lenB, double a[],
+						  int lenA, final double x[], int lenX) throws Exception {
+		int i, j;
+
+		if (a[0] == 0) {
+			throw new Exception("a[0] cannot be zero!");
+		}
+		// 滤波运算其实就是卷积运算，卷积运算就是移位乘加
+		if (a[0] != 1) {
+			for (i = 1; i != lenA; i++)
+				a[i] /= a[0];
+			for (i = 0; i != lenB; i++)
+				b[i] /= a[0];
+			a[0] = 1;
+		}
+		int na = lenA - 1, nb = lenB - 1;
+		int len = na > nb ? na : nb;
+		y[0] = b[0] * x[0];
+		for (i = 1; i <lenX; i++) {
+			y[i] = 0;
+			for (j = 0; j <= nb; j++) {
+				if (i - j < 0)
+					break;
+				y[i] += b[j] * x[i - j];
+			}
+			for (j = 1; j <= na; j++) {
+				if (i - j < 0)
+					break;
+				y[i] -= a[j] * y[i - j];
+			}
+		}
+//		// 十万分位四舍五入
+//		for (i = 0; i < y.length; i++) {
+//			y[i] = (double) (Math.round(y[i] * 10000)) / 10000;
+//		}
+		return;
+	}
+
 		/**
 		 *  转换十六进制通信协议字符串为其对应的double数值
 		 * @param s
 		 * return double[]
 		 */ 	
-		private static double[] stringSplitAndDataToFloats(String s)
-			{  	   
+		private  double[] stringSplitAndDataToFloats(String s)
+			{
+				if(!s.contains("c00000")){
+					Toast.makeText(LineChartActivity1.this, "数据格式错误", Toast.LENGTH_SHORT).show();
+				}
 				String[] a = s.split("c00000"); //分隔标识符
 		        StringBuffer b = new StringBuffer();
-//		        System.out.println(a.length);
 		        for(int j = 1; j < a.length ;j++){
 		        	for(int i=0 ; i<a[j].length()/6 ; i++){
 		        		String str = a[j].substring(i*6, (i+1)*6);
 			        	b.append(str).append("#");
-//			        	System.out.println("---");  
 			        }
 		        }		        
 		        String[] newStr = b.toString().split("#");

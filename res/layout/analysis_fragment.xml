@@ -10,11 +10,27 @@
         android:layout_height="match_parent"><![CDATA[>
         ]]>
 
-        <RelativeLayout
-            android:id="@+id/chart"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/open" />
+            android:layout_toLeftOf="@+id/open">
+
+            <RelativeLayout
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                 />
+
+            <TextView
+                android:id="@+id/heartRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:text="心率"
+                android:textColor="#ff0000"
+                android:layout_gravity="right" />
+        </FrameLayout>
 
         <Button
             android:id="@+id/open"
