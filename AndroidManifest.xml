@@ -12,6 +12,9 @@
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />  
 	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -42,9 +45,20 @@
     	</activity>
         <activity
             android:name="com.ustc.engineering.lab410.HeartMonitor.utils.MyFileManager"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:screenOrientation="landscape">
+        </activity>
+
+        <activity android:name="com.ustc.engineering.lab410.HeartMonitor.ui.main.othershow.PreferencesActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape">
+        </activity>
+
+        <activity android:name="com.ustc.engineering.lab410.HeartMonitor.ui.main.STLViewActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:launchMode="singleTask"
             android:screenOrientation="landscape">
         </activity>
     </application>
-
 </manifest>

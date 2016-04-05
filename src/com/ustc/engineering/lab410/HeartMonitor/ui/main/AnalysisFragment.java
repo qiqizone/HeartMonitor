@@ -857,6 +857,11 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 		}
 	}
 
+	/**
+	 * 心率检测函数
+	 * @param voltages
+	 * @return  int[]
+	 */
 	public static int[] SoAndChan(double[] voltages)
 	{
 
@@ -962,7 +967,6 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener {
 	 * @param inPut
 	 * @return  out
 	 */
-
 	public List<Double> lvbo(List<Double> inPut){
 		double[] xi = new double[inPut.size()];
 		List<Double> out = new ArrayList<Double>();
